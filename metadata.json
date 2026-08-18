@@ -1,0 +1,6 @@
+{
+  "name": "FastOphtha",
+  "description": "برنامج العطاء - طب العيون والفحص البصري الميداني الشامل | منظومة الفرز السريري والـ Oculomics الميداني - مؤسسة عطاء العقيلة التنموية",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
