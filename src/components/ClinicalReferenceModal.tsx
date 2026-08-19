@@ -15,6 +15,7 @@ import {
 import { resultsDatabase } from '../data/triageData';
 import { TriageResult, UrgencyType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
+import { generateReferralPDF } from '../pdfService';
 
 interface ClinicalReferenceModalProps {
   isOpen: boolean;
@@ -233,6 +234,21 @@ export const ClinicalReferenceModal: React.FC<ClinicalReferenceModalProps> = ({
                       <p className="text-xs text-slate-400 italic">
                         {subtitle}
                       </p>
+                      <button
+  type="button"
+  onClick={(e) => {
+    e.stopPropagation();
+    generateReferralPDF({
+      triageCategory: badge.label,
+      chiefComplaint: title,
+      initialInterventions: Array.isArray(steps) ? steps : [steps],
+      referralDestination: referralDest,
+    });
+  }}
+  className="mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition flex items-center gap-1"
+>
+  📄 طباعة تقرير PDF
+</button>
                     </div>
 
                     <div className="flex items-center gap-2">
