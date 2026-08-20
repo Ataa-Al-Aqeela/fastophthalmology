@@ -32,7 +32,42 @@ export const ClinicalReferenceModal: React.FC<ClinicalReferenceModalProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<'ALL' | UrgencyType>('ALL');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+const handleExportPDF = async (e: React.MouseEvent, data: any) => {
+    e.stopPropagation();
 
+    // إنشاء عنصر التنبيه
+    const loadingToast = document.createElement('div');
+    loadingToast.id = 'pdf-toast';
+    loadingToast.innerText = '⏳ جاري إعداد وتوليد التقرير الميداني...';
+    loadingToast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e293b;
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      padding: 12px 24px;
+      border-radius: 8px;
+      z-index: 9999;
+      font-weight: bold;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    `;
+    document.body.appendChild(loadingToast);
+
+    try {
+      await generateReferralPDF(data);
+      loadingToast.innerText = '✅ تم تحميل التقرير بنجاح!';
+      loadingToast.style.borderColor = '#22c55e';
+      loadingToast.style.color = '#22c55e';
+      setTimeout(() => loadingToast.remove(), 2500);
+    } catch (error) {
+      console.error('PDF Generation Error:', error);
+      loadingToast.innerText = '❌ حدث خطأ أثناء إنشاء التقرير';
+      loadingToast.style.borderColor = '#ef4444';
+      loadingToast.style.color = '#ef4444';
+      setTimeout(() => loadingToast.remove(), 3000);
+    }
+  };
   if (!isOpen) return null;
 
   const conditionsList = Object.values(resultsDatabase);
@@ -234,17 +269,14 @@ export const ClinicalReferenceModal: React.FC<ClinicalReferenceModalProps> = ({
                       <p className="text-xs text-slate-400 italic">
                         {subtitle}
                       </p>
-                      <button
+                    <button
   type="button"
-  onClick={(e) => {
-    e.stopPropagation();
-    generateReferralPDF({
-      triageCategory: badge.label,
-      chiefComplaint: title,
-      initialInterventions: Array.isArray(steps) ? steps : [steps],
-      referralDestination: referralDest,
-    });
-  }}
+  onClick={(e) => handleExportPDF(e, {
+    triageCategory: badge.label,
+    chiefComplaint: title,
+    initialInterventions: Array.isArray(steps) ? steps : [steps],
+    referralDestination: referralDest,
+  })}
   className="mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition flex items-center gap-1"
 >
   📄 طباعة تقرير PDF
