@@ -1,5 +1,3 @@
-import jsPDF from 'jspdf';
-
 export interface PatientReportData {
   patientName?: string;
   age?: string;
@@ -14,12 +12,6 @@ export interface PatientReportData {
 }
 
 export const generateReferralPDF = async (data: PatientReportData) => {
-  const doc = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4',
-  });
-
   const dateStr = new Date().toLocaleDateString('ar-EG', {
     year: 'numeric',
     month: 'long',
@@ -28,61 +20,111 @@ export const generateReferralPDF = async (data: PatientReportData) => {
     minute: '2-digit',
   });
 
-  // إعدادات الهيدر الرئيسي
-  doc.setFillColor(15, 23, 42);
-  doc.rect(0, 0, 210, 35, 'F');
+  const interventionsList = Array.isArray(data.initialInterventions)
+    ? data.initialInterventions.map((item) => <li>${item}</li>).join('')
+    : <li>${data.initialInterventions}</li>;
 
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(18);
-  doc.text('مؤسسة عطاء العقيلة التنموية', 105, 15, { align: 'center' });
-  doc.setFontSize(12);
-  doc.text('بطاقة تحويل وتقريــر فحص ميداني طارئ', 105, 25, { align: 'center' });
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) return;
 
-  // تفاصيل التقرير
-  doc.setTextColor(30, 41, 59);
-  doc.setFontSize(10);
-  doc.text(`تاريخ الفحص: ${dateStr}`, 15, 45);
-  doc.text(`تصنيف الحالة (Triage): ${data.triageCategory}`, 15, 53);
+  printWindow.document.write(
+    <!DOCTYPE html>
+    <html dir="rtl" lang="ar">
+    <head>
+      <meta charset="UTF-8">
+      <title>بطاقة تحويل وتفقّد ميداني طارئ</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        body {
+          font-family: 'Tajawal', sans-serif;
+          margin: 0;
+          padding: 20px;
+          color: #1e293b;
+          direction: rtl;
+        }
+        .header {
+          background-color: #0f172a;
+          color: white;
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .header h1 { margin: 0 0 5px 0; font-size: 20px; }
+        .header p { margin: 0; font-size: 14px; color: #94a3b8; }
+        .section {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          padding: 15px;
+          margin-bottom: 15px;
+        }
+        .section-title {
+          font-weight: bold;
+          color: #0284c7;
+          font-size: 16px;
+          margin-bottom: 10px;
+          border-bottom: 1px solid #cbd5e1;
+          padding-bottom: 5px;
+        }
+        .field { margin-bottom: 8px; font-size: 14px; }
+        .field-label { font-weight: bold; color: #475569; }
+        ul { margin: 5px 0; padding-right: 20px; }
+        li { margin-bottom: 4px; font-size: 14px; }
+        .footer {
+          margin-top: 30px;
+          text-align: center;
+          font-size: 12px;
+          color: #64748b;
+          border-top: 1px dashed #cbd5e1;
+          padding-top: 10px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>مؤسسة عطاء التنموية</h1>
+        <p>بطاقة تحويل وتفقّد ميداني طارئ</p>
+      </div>
 
-  // خط فاصل
-  doc.setLineWidth(0.5);
-  doc.setDrawColor(226, 232, 240);
-  doc.line(15, 58, 195, 58);
+      <div class="section">
+        <div class="field"><span class="field-label">تاريخ الفحص:</span> ${dateStr}</div>
+        <div class="field"><span class="field-label">تصنيف الحالة (Triage):</span> ${data.triageCategory}</div>
+      </div>
 
-  // الشكوى والفحص الميداني
-  doc.setFontSize(12);
-  doc.text('1. الشكوى الرئيسية والتقييم السريري:', 15, 68);
-  doc.setFontSize(10);
-  doc.text(`• الشكوى: ${data.chiefComplaint}`, 20, 76);
-  if (data.visualAcuityOD || data.visualAcuityOS) {
-    doc.text(`• حدة البصر: اليمنى (${data.visualAcuityOD || 'N/A'}) - اليسرى (${data.visualAcuityOS || 'N/A'})`, 20, 84);
-  }
+      <div class="section">
+        <div class="section-title">1. الشكوى الرئيسية والتقييم السريري</div>
+        <div class="field"><span class="field-label">الشكوى:</span> ${data.chiefComplaint}</div>
+        ${
+          data.visualAcuityOD || data.visualAcuityOS
+            ? <div class="field"><span class="field-label">حدة البصر:</span> اليمنى (${data.visualAcuityOD  'N/A'}) - اليسرى (${data.visualAcuityOS  'N/A'})</div>`
+            : ''
+        }
+      </div>
 
-  // التدابير والإسعافات المُجراة
-  doc.setFontSize(12);
-  doc.text('2. الإسعافات والتدابير الأولية المُجراة في الميدان:', 15, 98);
-  doc.setFontSize(10);
-  let yPos = 106;
-  data.initialInterventions.forEach((item) => {
-    doc.text(`• ${item}`, 20, yPos);
-    yPos += 7;
-  });
+      <div class="section">
+        <div class="section-title">2. التدابير والإسعافات الأولية المجرأة في الميدان</div>
+        <ul>${interventionsList}</ul>
+      </div>
 
-  // التوجيه والتحويل
-  yPos += 5;
-  doc.setFontSize(12);
-  doc.text('3. وجهة التحويل والتعليمات:', 15, yPos);
-  doc.setFontSize(10);
-  doc.text(`• الجهة الموصى بها: ${data.referralDestination}`, 20, yPos + 8);
+      <div class="section">
+        <div class="section-title">3. التوجيه والتحويل</div>
+        <div class="field"><span class="field-label">الجهة الموصى بها:</span> ${data.referralDestination}</div>
+      </div>
 
-  // الفوتر الخاتم
-  doc.setFillColor(241, 245, 249);
-  doc.rect(0, 270, 210, 27, 'F');
-  doc.setFontSize(8);
-  doc.setTextColor(100, 116, 139);
-  doc.text('تنبيه طبي: هذه الوثيقة صادرة من منظومة الفرز السريري الميداني - برنامج العطاء لطب العيون.', 105, 280, { align: 'center' });
-  doc.text('تُسلم هذه البطاقة للطاقم الطبي في مستشفى الإحالة النهائي.', 105, 285, { align: 'center' });
+      <div class="footer">
+        تنبيـه طـبي: هذه الوثيقة صادرة من منظومة الفرز السريري وال Oculomics الميداني لبرنامج العطاء لطب العيون.<br>
+        تُسلم هذه البطاقة للطاقم الطبي في مستشفى الإحالة النهائي.
+      </div>
+      <script>
+        window.onload = function() {
+          window.print();
+          setTimeout(function() { window.close(); }, 750);
+        };
+      </script>
+    </body>
+    </html>
+  `);
 
-  // حفظ الملف وتنزيله
-  doc.save(`تقرير_تحويل_ميداني_${Date.now()}.pdf`);
+  printWindow.document.close();
 };
