@@ -15,7 +15,7 @@ import { useLanguage } from './context/LanguageContext';
 import { 
   BookOpen, 
   Timer,
-  Stethoscope
+  Stethoscope,
   FolderOpen
 } from 'lucide-react';
 
