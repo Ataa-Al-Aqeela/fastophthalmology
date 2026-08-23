@@ -265,7 +265,7 @@ const handleSaveCase = () => {
   className="p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-purple-500/40 rounded-xl transition flex flex-col items-center gap-1.5"
 >
   <FolderOpen className="w-5 h-5 text-purple-400" />
-  <span className="font-bold text-[11px]">{lang === 'ar' ? 'سجل الحالات' : 'Case History'}</span>
+  <span className="font-bold text-[11px]">سجل الحالات </span>
 </button>
           </div>
         </div>
