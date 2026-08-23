@@ -64,23 +64,7 @@ export default function App() {
       // ignore storage limits
     }
   }, [savedCases]);
-// Save Case Handler
-const handleSaveCase = () => {
-  if (!currentResult) return;
-  
-  const newCase: SavedCase = {
-    id: Date.now().toString(),
-    timestamp: new Date().toISOString(),
-    triageCategory: currentResult.urgency,
-    chiefComplaint: currentResult.title,
-    initialInterventions: currentResult.steps || [],
-    referralDestination: currentResult.referralDestination || 'مستشفى العيون الميداني',
-    notes: currentResult.summary
-  };
 
-  setSavedCases(prev => [newCase, ...prev]);
-  alert(lang === 'ar' ? 'تم حفظ الحالة بنجاح!' : 'Case saved successfully!');
-};
   // Path Selection
   const handleSelectPath = (pathId: string) => {
     setCurrentPath(pathId);
