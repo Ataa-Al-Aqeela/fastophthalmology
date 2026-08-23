@@ -16,6 +16,7 @@ import {
   BookOpen, 
   Timer,
   Stethoscope
+  FolderOpen
 } from 'lucide-react';
 
 export default function App() {
@@ -63,7 +64,23 @@ export default function App() {
       // ignore storage limits
     }
   }, [savedCases]);
+// Save Case Handler
+const handleSaveCase = () => {
+  if (!currentResult) return;
+  
+  const newCase: SavedCase = {
+    id: Date.now().toString(),
+    timestamp: new Date().toISOString(),
+    triageCategory: currentResult.urgency,
+    chiefComplaint: currentResult.title,
+    initialInterventions: currentResult.steps || [],
+    referralDestination: currentResult.referralDestination || 'مستشفى العيون الميداني',
+    notes: currentResult.summary
+  };
 
+  setSavedCases(prev => [newCase, ...prev]);
+  alert(lang === 'ar' ? 'تم حفظ الحالة بنجاح!' : 'Case saved successfully!');
+};
   // Path Selection
   const handleSelectPath = (pathId: string) => {
     setCurrentPath(pathId);
@@ -219,7 +236,7 @@ export default function App() {
       {/* Quick Launch Bottom Bar (when on main screen) */}
       {!currentPath && (
         <div className="max-w-3xl mx-auto px-4 pb-4 w-full">
-          <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="grid grid-cols-4 gap-2 text-center text-xs">
             <button
               onClick={() => setIsTimerOpen(true)}
               className="p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/40 rounded-xl transition flex flex-col items-center gap-1.5 text-slate-300 hover:text-amber-300"
@@ -243,6 +260,13 @@ export default function App() {
               <Stethoscope className="w-5 h-5 text-emerald-400" />
               <span className="font-bold text-[11px]">{t.bedsideTools}</span>
             </button>
+            <button
+  onClick={() => setIsHistoryOpen(true)}
+  className="p-3 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-purple-500/40 rounded-xl transition flex flex-col items-center gap-1.5"
+>
+  <FolderOpen className="w-5 h-5 text-purple-400" />
+  <span className="font-bold text-[11px]">{lang === 'ar' ? 'سجل الحالات' : 'Case History'}</span>
+</button>
           </div>
         </div>
       )}
