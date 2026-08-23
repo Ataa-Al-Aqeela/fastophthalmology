@@ -27,7 +27,7 @@ export const generateReferralPDF = async (data: PatientReportData) => {
   const printWindow = window.open('', '_blank');
   if (!printWindow) return;
 
-  printWindow.document.write(
+ const htmlContent = `
     <!DOCTYPE html>
     <html dir="rtl" lang="ar">
     <head>
@@ -124,7 +124,8 @@ export const generateReferralPDF = async (data: PatientReportData) => {
       </script>
     </body>
     </html>
-  `);
+ `;
 
+  printWindow.document.write(htmlContent);
   printWindow.document.close();
 };
