@@ -17,11 +17,11 @@ export const generateReferralPDF = async (data: PatientReportData) => {
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit',
+    minute: '2-digit'
   });
 
   const interventionsList = Array.isArray(data.initialInterventions)
-    ? data.initialInterventions.map((item) => <li>${item}</li>).join('')
+    ? data.initialInterventions.map((item: string) => <li>${item}</li>).join('')
     : <li>${data.initialInterventions}</li>;
 
   const printWindow = window.open('', '_blank');
