@@ -21,8 +21,8 @@ export const generateReferralPDF = async (data: PatientReportData) => {
   });
 
   const interventionsList = Array.isArray(data.initialInterventions)
-    ? data.initialInterventions.map((item: string) => <li>${item}</li>).join('')
-    : <li>${data.initialInterventions}</li>;
+  ? data.initialInterventions.map((item: string) => `<li>${item}</li>`).join('')
+  : `<li>${data.initialInterventions}</li>`;
 
   const printWindow = window.open('', '_blank');
   if (!printWindow) return;
