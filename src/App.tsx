@@ -136,7 +136,7 @@ export default function App() {
   const handleSaveCase = () => {
     if (!currentResult) return;
     const pathTitle = getLocalizedPathTitle();
-    
+
     const newCase: SavedCase = {
       id: 'case_' + Date.now(),
       timestamp: new Date().toLocaleString(lang === 'ar' ? 'ar-SA' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }),
@@ -146,7 +146,11 @@ export default function App() {
       result: currentResult
     };
 
-    setSavedCases((prev) => [newCase, ...prev]);
+    setSavedCases((prev) => {
+      const updated = [newCase, ...prev];
+      localStorage.setItem('saved_cases', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const isCaseSaved = currentResult ? savedCases.some(c => c.result.id === currentResult.id && c.answers.length === historyStack.length) : false;
