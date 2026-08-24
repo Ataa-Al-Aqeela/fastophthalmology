@@ -42,7 +42,7 @@ export const TriageResultCard: React.FC<TriageResultCardProps> = ({
   isCaseSaved
 }) => {
   const { lang, t, dir } = useLanguage();
-
+const [hasAsthmaOrHeart, setHasAsthmaOrHeart] = React.useState<boolean | null>(null);
   const getTheme = (type: UrgencyType) => {
     switch (type) {
       case 'CRITICAL':
@@ -172,13 +172,14 @@ export const TriageResultCard: React.FC<TriageResultCardProps> = ({
             </div>
           )}
 
-          {/* Critical Contraindications */}
+          {/* Critical Contraindications & Interactive Safety Check */}
           {displayContraindications.length > 0 && (
-            <div className="bg-rose-950/30 border border-rose-600/50 p-3.5 sm:p-4 rounded-xl space-y-2">
+            <div className="bg-rose-950/30 border border-rose-600/50 p-3.5 sm:p-4 rounded-xl space-y-3">
               <h3 className="font-black text-rose-300 flex items-center gap-1.5 text-xs sm:text-sm">
                 <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0 animate-bounce" />
                 <span>{t.contraindicationsTitle}</span>
               </h3>
+              
               <div className="space-y-1.5 text-rose-200 text-xs sm:text-sm font-semibold">
                 {displayContraindications.map((ci, idx) => (
                   <p key={idx} className="leading-relaxed bg-rose-950/40 p-2 rounded-lg border border-rose-800/40">
@@ -186,6 +187,43 @@ export const TriageResultCard: React.FC<TriageResultCardProps> = ({
                   </p>
                 ))}
               </div>
+
+              {/* Interactive Drug Safety Checklist (Decision Support) */}
+              {result.medications?.some(m => m.name.toLowerCase().includes('timolol')) && (
+                <div className="bg-slate-950/90 p-3 rounded-xl border border-amber-500/40 space-y-2 mt-2">
+                  <p className="font-bold text-amber-300 text-xs">
+                    ⚠️ فحص السلامة قبل صرف (Timolol): هل يعاني المريض من الربو أو قصور القلب؟
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setHasAsthmaOrHeart(true)}
+                      className={px-3 py-1 rounded-lg text-xs font-bold transition ${
+                        hasAsthmaOrHeart === true ? 'bg-red-600 text-white' : 'bg-slate-800 text-slate-300'
+                      }}
+                    >
+                      نعم (يوجد مانع)
+                    </button>
+                    <button
+                      onClick={() => setHasAsthmaOrHeart(false)}
+                      className={px-3 py-1 rounded-lg text-xs font-bold transition ${
+                        hasAsthmaOrHeart === false ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300'
+                      }}
+                    >
+                      لا (آمن)
+                    </button>
+                  </div>
+
+                  {hasAsthmaOrHeart === true && (
+                    <div className="bg-red-950/80 border border-red-500/80 p-2.5 rounded-lg text-red-200 text-xs font-bold space-y-1 animate-in fade-in">
+                      <p>⛔ يُمنع استخدام Timolol نهائياً!</p>
+                      <p className="text-amber-300">💡 البديل الميداني الآمن: قطرة Brimonidine 0.2% أو Dorzolamide 2%.</p>
+                    </div>
+                  )}
+                  {hasAsthmaOrHeart === false && (
+                    <p className="text-emerald-400 text-xs font-semibold">✓ تم التأكيد: آمن للجرعة المقررة.</p>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
