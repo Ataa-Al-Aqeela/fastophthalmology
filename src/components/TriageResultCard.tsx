@@ -172,7 +172,7 @@ const [hasAsthmaOrHeart, setHasAsthmaOrHeart] = React.useState<boolean | null>(n
             </div>
           )}
 
-          {/* Critical Contraindications & Interactive Safety Check */}
+         {/* Critical Contraindications & Interactive Safety Check */}
           {displayContraindications.length > 0 && (
             <div className="bg-rose-950/30 border border-rose-600/50 p-3.5 sm:p-4 rounded-xl space-y-3">
               <h3 className="font-black text-rose-300 flex items-center gap-1.5 text-xs sm:text-sm">
@@ -197,17 +197,17 @@ const [hasAsthmaOrHeart, setHasAsthmaOrHeart] = React.useState<boolean | null>(n
                   <div className="flex gap-2">
                     <button
                       onClick={() => setHasAsthmaOrHeart(true)}
-                      className={px-3 py-1 rounded-lg text-xs font-bold transition ${
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
                         hasAsthmaOrHeart === true ? 'bg-red-600 text-white' : 'bg-slate-800 text-slate-300'
-                      }}
+                      }`}
                     >
                       نعم (يوجد مانع)
                     </button>
                     <button
                       onClick={() => setHasAsthmaOrHeart(false)}
-                      className={px-3 py-1 rounded-lg text-xs font-bold transition ${
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
                         hasAsthmaOrHeart === false ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300'
-                      }}
+                      }`}
                     >
                       لا (آمن)
                     </button>
