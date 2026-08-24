@@ -307,14 +307,19 @@ export const TriageResultCard: React.FC<TriageResultCardProps> = ({
               )}
             </button>
 
-            {/* Generate Report Button */}
-            <button
-              onClick={onOpenReport}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-md shadow-blue-600/30 transition active:scale-95 text-xs sm:text-sm"
-            >
-              <FileText className="w-4 h-4" />
-              <span>{t.generateReportBtn}</span>
-            </button>
+           {/* Generate Report Button */}
+          <button
+            onClick={() => {
+              if (!isCaseSaved && onSaveCase) {
+                onSaveCase();
+              }
+              onOpenReport();
+            }}
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-md"
+          >
+            <FileText className="w-4 h-4" />
+            <span>{t.generateReportBtn}</span>
+          </button>
 
             {/* Reset */}
             <button
