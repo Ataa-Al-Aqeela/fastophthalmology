@@ -128,7 +128,20 @@ export const ReportModal: React.FC<ReportModalProps> = ({
     }
   };
 
+  const validatePatientInfo = () => {
+    if (!patientName.trim()) {
+      alert(lang === 'ar' ? '⚠️ يرجى إدخال اسم المريض أو الرمز السريري أولاً.' : '⚠️ Please enter patient name/ID first.');
+      return false;
+    }
+    if (!patientAge || Number(patientAge) <= 0) {
+      alert(lang === 'ar' ? '⚠️ يرجى إدخال عمر صحيح للمريض.' : '⚠️ Please enter a valid patient age.');
+      return false;
+    }
+    return true;
+  };
+
   const handleCopy = () => {
+    if (!validatePatientInfo()) return;
     const text = generateReportText();
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -136,8 +149,9 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   };
 
   const handleWhatsAppShare = () => {
+    if (!validatePatientInfo()) return;
     const text = encodeURIComponent(generateReportText());
-    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+  window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
 
   const handlePrint = () => {
