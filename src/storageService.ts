@@ -24,19 +24,18 @@ export const getSavedCases = (): SavedCase[] => {
 };
 
 // حفظ حالة جديدة محلياً
-export const saveCaseLocally = (newCaseData: Omit<SavedCase, 'id' | 'createdAt'>): SavedCase => {
-  const existingCases = getSavedCases();
-  const newCase: SavedCase = {
-    ...newCaseData,
-    id: CASE-${Date.now()},
-    createdAt: new Date().toISOString(),
-  };
+export const saveCaseLocally = (newCaseData: Omit<SavedCase, 'id' | 'createdAt'>): SavedCase[] => {
+    const existingCases = getSavedCases();
+    const newCase: SavedCase = {
+        ...newCaseData,
+        id: CASE-${Date.now()},
+        createdAt: new Date().toISOString(),
+    };
 
-  const updatedCases = [newCase, ...existingCases];
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCases));
-  return newCase;
+    const updatedCases = [newCase, ...existingCases];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCases));
+    return updatedCases;
 };
-
 // حذف حالة معينة
 export const deleteCaseLocally = (id: string) => {
   const existingCases = getSavedCases();
