@@ -1,3 +1,4 @@
+import { clinicalPrintCSS } from './clinicalPrintLayout';
 import React, { useState } from 'react';
 import { 
   FileText, 
@@ -155,9 +156,75 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   };
 
   const handlePrint = () => {
-    window.print();
+    if (!validatePatientInfo()) return;
+    const reportText = generateReportText();
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+    const doc = printWindow.document;
+    doc.title = 'Ophthalmology Report';
+    const style = doc.createElement('style');
+    style.textContent = clinicalPrintCSS + `
+      .report-header { justify-content:space-between; direction:ltr; }
+      .report-heading { font-size:18px; font-weight:800; color:#075a91; margin:0 0 5px; }
+      .report-section { margin:10px 0; padding:12px 15px; }
+      .report-section-title { margin:0 0 8px; }
+      .report-line { margin:5px 0; line-height:1.7; white-space:pre-wrap; overflow-wrap:break-word; }
+      .report-line[dir=rtl] { text-align:right; }
+      .report-line[dir=ltr] { text-align:left; }
+      .report-footer { margin-top:18px; }
+      @media print { .report-section { break-inside:auto; } .report-section-title { break-after:avoid; } }
+    `;
+    doc.head.appendChild(style);
+    const main = doc.createElement('main');
+    main.className = 'report';
+    main.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    const header = doc.createElement('header');
+    header.className = 'report-header';
+    const brand = doc.createElement('div');
+    brand.className = 'report-brand';
+    brand.textContent = 'ATAA | Fast Ophthalmology';
+    const logo = doc.createElement('img');
+    logo.src = new URL('/pwa-512x512.png', window.location.origin).href;
+    logo.className = 'report-logo';
+    logo.alt = 'ATAA';
+    header.appendChild(brand);
+    header.appendChild(logo);
+    main.appendChild(header);
+    const groups = reportText.split(/\r?\n/).reduce<string[][]>((acc, line) => {
+      if (/^[=\-]{5,}$/.test(line.trim())) {
+        if (acc[acc.length - 1].length) acc.push([]);
+      } else if (line.trim()) {
+        acc[acc.length - 1].push(line);
+      }
+      return acc;
+    }, [[]]);
+    const nonEmpty = groups.filter(group => group.length > 0);
+    nonEmpty.forEach((group, index) => {
+      const isFooter = index === nonEmpty.length - 1 && group.length === 1 && nonEmpty.length > 2;
+      const section = doc.createElement(isFooter ? 'footer' : 'section');
+      section.className = isFooter ? 'report-footer' : 'report-section';
+      group.forEach((line, lineIndex) => {
+        const p = doc.createElement('p');
+        const trimmed = line.trim();
+        const isHeading = lineIndex === 0 && index > 0 && !isFooter &&
+          (trimmed.endsWith(':') || trimmed.endsWith('ï¼ڑ') ||
+           /^(?:ًں“‹|ًںڈ¥|ًںڑ©|ًں“‘|ًںژ¯|ًںڑ¨|âڈ±|âڑ،|â›”|ًں“Œ)/u.test(trimmed));
+        p.className = index === 0 && lineIndex === 0 ? 'report-heading' :
+          isHeading ? 'report-section-title' : 'report-line';
+        p.textContent = line;
+        p.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        section.appendChild(p);
+      });
+      main.appendChild(section);
+    });
+    doc.body.appendChild(main);
+    const doPrint = () => { printWindow.focus(); printWindow.print(); };
+    if (logo.complete) doPrint();
+    else {
+      logo.onload = doPrint;
+      logo.onerror = doPrint;
+    }
   };
-
   return (
     <div 
       className="modal-portal-wrapper fixed inset-0 top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm w-full max-w-full h-full max-h-screen overflow-x-hidden overflow-y-auto animate-in fade-in duration-200" 
@@ -312,7 +379,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
               }`}
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? (lang === 'ar' ? 'تم نسخ التقرير!' : 'Copied!') : t.copyReportBtn}</span>
+              <span>{copied ? (lang === 'ar' ? 'تم نسخ التقرير!' : 'Copied!') : t.copyReport}</span>
             </button>
 
             <button
@@ -328,7 +395,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-semibold transition"
             >
               <Printer className="w-4 h-4" />
-              <span className="hidden sm:inline">{t.printBtn}</span>
+              <span className="hidden sm:inline">{t.printReport}</span>
             </button>
           </div>
 

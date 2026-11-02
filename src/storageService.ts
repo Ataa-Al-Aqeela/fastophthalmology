@@ -12,23 +12,23 @@ export interface SavedCase {
 
 const STORAGE_KEY = 'fast_ophthalmology_field_cases';
 
-// جلب جميع الحالات المحفوظة محلياً
+// ط·آ¬ط¸â€‍ط·آ¨ ط·آ¬ط¸â€¦ط¸ظ¹ط·آ¹ ط·آ§ط¸â€‍ط·آ­ط·آ§ط¸â€‍ط·آ§ط·ع¾ ط·آ§ط¸â€‍ط¸â€¦ط·آ­ط¸ظ¾ط¸ث†ط·آ¸ط·آ© ط¸â€¦ط·آ­ط¸â€‍ط¸ظ¹ط·آ§ط¸â€¹
 export const getSavedCases = (): SavedCase[] => {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     return data ? JSON.parse(data) : [];
   } catch (error) {
-    console.error('خطأ أثناء جلب الحالات المحفوظة:', error);
+    console.error('ط·آ®ط·آ·ط·آ£ ط·آ£ط·آ«ط¸â€ ط·آ§ط·طŒ ط·آ¬ط¸â€‍ط·آ¨ ط·آ§ط¸â€‍ط·آ­ط·آ§ط¸â€‍ط·آ§ط·ع¾ ط·آ§ط¸â€‍ط¸â€¦ط·آ­ط¸ظ¾ط¸ث†ط·آ¸ط·آ©:', error);
     return [];
   }
 };
 
-// حفظ حالة جديدة محلياً
+// ط·آ­ط¸ظ¾ط·آ¸ ط·آ­ط·آ§ط¸â€‍ط·آ© ط·آ¬ط·آ¯ط¸ظ¹ط·آ¯ط·آ© ط¸â€¦ط·آ­ط¸â€‍ط¸ظ¹ط·آ§ط¸â€¹
 export const saveCaseLocally = (newCaseData: Omit<SavedCase, 'id' | 'createdAt'>): SavedCase[] => {
     const existingCases = getSavedCases();
     const newCase: SavedCase = {
         ...newCaseData,
-        id: CASE-${Date.now()},
+        id: 'CASE-' + Date.now(),
         createdAt: new Date().toISOString(),
     };
 
@@ -36,20 +36,20 @@ export const saveCaseLocally = (newCaseData: Omit<SavedCase, 'id' | 'createdAt'>
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCases));
     return updatedCases;
 };
-// حذف حالة معينة
+// ط·آ­ط·آ°ط¸ظ¾ ط·آ­ط·آ§ط¸â€‍ط·آ© ط¸â€¦ط·آ¹ط¸ظ¹ط¸â€ ط·آ©
 export const deleteCaseLocally = (id: string) => {
   const existingCases = getSavedCases();
   const filteredCases = existingCases.filter((c) => c.id !== id);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredCases));
 };
 
-// تصدير الحالات إلى ملف JSON
+// ط·ع¾ط·آµط·آ¯ط¸ظ¹ط·آ± ط·آ§ط¸â€‍ط·آ­ط·آ§ط¸â€‍ط·آ§ط·ع¾ ط·آ¥ط¸â€‍ط¸â€° ط¸â€¦ط¸â€‍ط¸ظ¾ JSON
 export const exportCasesToJSON = () => {
   const cases = getSavedCases();
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cases, null, 2));
   const downloadAnchor = document.createElement('a');
   downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", سجل_الحالات_الميدانية_${Date.now()}.json);
+  downloadAnchor.setAttribute("download", "field_cases.json");
   document.body.appendChild(downloadAnchor);
   downloadAnchor.click();
   downloadAnchor.remove();

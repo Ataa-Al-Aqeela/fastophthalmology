@@ -1,4 +1,9 @@
 export interface TranslationSchema {
+  tabPinhole: string;
+  tabRedEyeTable: string;
+  tabVisualAcuity: string;
+  tabOpenGlobe: string;
+  tabFluorescein: string;
   appTitle: string;
   appSubtitle: string;
   resetBtn: string;
@@ -91,6 +96,11 @@ export interface TranslationSchema {
 
 export const translations: Record<'ar' | 'en', TranslationSchema> = {
   ar: {
+    tabPinhole: "اختبار الثقب",
+    tabRedEyeTable: "جدول العين الحمراء",
+    tabVisualAcuity: "حدة البصر",
+    tabOpenGlobe: "إصابة العين المفتوحة",
+    tabFluorescein: "اختبار الفلوريسئين",
     appTitle: "FastOphtha",
     appSubtitle: "الفرز السريري السريع لطب وجراحة العيون",
     resetBtn: "إعادة بدء",
@@ -180,6 +190,11 @@ export const translations: Record<'ar' | 'en', TranslationSchema> = {
     footerSub: "أداة مساعدة ودعم للقرار السريري لطواقم الطوارئ والقوافل الطبية"
   },
   en: {
+    tabPinhole: "Pinhole Test",
+    tabRedEyeTable: "Red Eye Table",
+    tabVisualAcuity: "Visual Acuity",
+    tabOpenGlobe: "Open Globe Injury",
+    tabFluorescein: "Fluorescein Test",
     appTitle: "FastOphtha",
     appSubtitle: "Rapid Field Ophthalmic Triage System",
     resetBtn: "Reset",

@@ -74,7 +74,7 @@ ${c.result.steps.map(s => ` - ${s}`).join('\n')}
             </div>
             <div>
               <h2 className="text-base font-bold text-white font-['Cairo']">
-                {t.caseHistoryTitle}
+                {t.shiftHistoryTitle}
               </h2>
               <p className="text-[11px] text-slate-400">
                 {lang === 'ar' ? 'أرشيف الحالات التي تم فرزها محلياً أثناء المناوبة الميدانية' : 'Local shift archive of triaged ocular emergencies'}
@@ -102,14 +102,14 @@ ${c.result.steps.map(s => ` - ${s}`).join('\n')}
                   className="flex items-center gap-1 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-medium transition"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>{t.exportLogBtn}</span>
+                  <span>{t.exportTxt}</span>
                 </button>
                 <button
                   onClick={onClearAll}
                   className="flex items-center gap-1 px-2.5 py-1 rounded bg-red-950/40 hover:bg-red-900/50 text-red-300 border border-red-800/40 font-medium transition"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  <span>{t.clearHistoryBtn}</span>
+                  <span>{t.clearAllCases}</span>
                 </button>
               </>
             )}
@@ -121,7 +121,7 @@ ${c.result.steps.map(s => ` - ${s}`).join('\n')}
           {savedCases.length === 0 ? (
             <div className="text-center py-12 text-slate-500 space-y-2">
               <ClipboardList className="w-10 h-10 mx-auto text-slate-600 stroke-[1.5]" />
-              <p className="text-sm">{t.noCasesLogged}</p>
+              <p className="text-sm">{t.noCasesRecorded}</p>
               <p className="text-[11px] text-slate-600">
                 {lang === 'ar' ? 'عند الانتهاء من تقييم أي حالة، اضغط "حفظ في سجل الحالات" لتسجيلها هنا.' : 'Click "Save to Case Log" after evaluating a case to store it here.'}
               </p>
