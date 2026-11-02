@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+﻿import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations, TranslationSchema } from '../data/translations';
 
 export type Language = 'ar' | 'en';
@@ -14,7 +14,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLang] = useState<Language>(() => {
-    return (localStorage.getItem('fastophtha_lang') as Language) || 'ar';
+    return (localStorage.getItem('fastophtha_lang') as Language) || 'en';
   });
 
   useEffect(() => {
@@ -41,3 +41,4 @@ export const useLanguage = () => {
   }
   return context;
 };
+
