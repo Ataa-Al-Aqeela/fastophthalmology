@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { ApexHeader } from './components/ApexHeader';
 import { Footer } from './components/Footer';
@@ -67,7 +67,7 @@ export default function App() {
 
   // Path Selection
   const handleSelectPath = (pathId: string) => {
-  if (pathId === 'oculomics') { window.location.assign('http://localhost:3000'); return; }  
+  if (pathId === 'oculomics') { window.location.assign('https://ataa-oculo-health-v1.vercel.app'); return; }  
     setCurrentPath(pathId);
     setCurrentNodeId(pathId);
     setHistoryStack([]);
@@ -307,3 +307,4 @@ return String(treeNode.pathTitle ?? currentPath);
     </div>
   );
 }
+
