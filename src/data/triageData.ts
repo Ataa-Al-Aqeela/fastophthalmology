@@ -39,158 +39,223 @@ export const triagePaths = [
 export const decisionTrees: Record<string, TriageNode> = {
   // ==================== PATH 1: VISUAL LOSS ====================
   visual_loss: {
-    id: 'vl_onset',
-    pathTitle: 'ضعف أو هبوط بالرؤية',
-    pathTitleEn: 'Visual Loss / Blur',
-    question: 'كيف كان نمط هبوط / ضعف الرؤية لدى المريض؟',
-    questionEn: 'What was the onset and pattern of the patient’s visual loss?',
-    hint: 'حدد سرعة تدهور حدة الإبصار بدقة لتحديد درجة الإلحاح',
-    hintEn: 'Assess the rapidity of vision deterioration to determine clinical urgency',
-    options: [
-      {
-        label: 'مفاجئ (خلال دقائق إلى ساعات أو عند الاستيقاظ)',
-        labelEn: 'Sudden onset (within minutes to hours or upon waking)',
-        subLabel: 'تدهور سريع جداً وغير متوقع في حدة البصر',
-        subLabelEn: 'Rapid, acute deterioration of visual acuity',
-        next: 'vl_sudden_pain',
-        icon: 'Zap'
-      },
-      {
-        label: 'تدريجي (خلال أسابيع إلى أشهر أو سنوات)',
-        labelEn: 'Gradual onset (over weeks, months, or years)',
-        subLabel: 'تراجع بطيء ومستمر في جودة الرؤية',
-        subLabelEn: 'Slow, progressive decline in vision quality',
-        next: 'vl_gradual',
-        icon: 'Clock'
-      }
-    ]
-  },
+  "pathTitle": "فرز فقدان الرؤية",
+  "pathTitleEn": "Visual Loss Triage",
+  "question": "هل توجد أي علامة إنذار إسعافية مرافقة لفقدان الرؤية؟",
+  "questionEn": "Are any emergency warning features present?",
+  "hint": "وجود العلامات التالية يستدعي التقييم الإسعافي دون إكمال الفرز. عدم وجودها لا يستبعد مرضاً خطيراً.",
+  "hintEn": "Emergency features require immediate assessment; their absence does not exclude serious disease.",
+  "options": [
+    {
+      "label": "ضعف أو خدر مفاجئ، اضطراب الكلام، تدلي الوجه، فقدان مجال بصري مفاجئ أو ازدواج جديد مع أعراض عصبية",
+      "labelEn": "Sudden weakness/numbness, speech or facial changes, acute visual-field loss, or new diplopia with neurologic symptoms",
+      "subLabel": "حتى لو زالت الأعراض",
+      "subLabelEn": "Even if symptoms have resolved",
+      "next": "RES_VL_NEURO_EMERGENCY",
+      "icon": "AlertOctagon"
+    },
+    {
+      "label": "فقدان رؤية مفاجئ وعابر في عين واحدة ثم عادت الرؤية",
+      "labelEn": "Sudden transient monocular visual loss with subsequent recovery",
+      "subLabel": "قد يمثل نقص تروية شبكية عابراً",
+      "subLabelEn": "May represent transient retinal ischemia",
+      "next": "RES_OCULOMICS_ALERT",
+      "icon": "AlertTriangle"
+    },
+    {
+      "label": "العمر 50 سنة أو أكثر مع فقدان رؤية جديد وصداع جديد أو ألم الفك عند المضغ أو ألم فروة الرأس",
+      "labelEn": "Age 50 or older with new visual loss plus new headache, jaw claudication, or scalp tenderness",
+      "subLabel": "اشتباه التهاب الشريان ذي الخلايا العملاقة",
+      "subLabelEn": "Possible giant cell arteritis",
+      "next": "RES_VL_GCA",
+      "icon": "AlertOctagon"
+    },
+    {
+      "label": "لا توجد أي من العلامات السابقة أو لا تنطبق على الحالة",
+      "labelEn": "None of the above features are present or identified",
+      "subLabel": "تابع تقييم نمط فقدان الرؤية",
+      "subLabelEn": "Continue assessment of visual-loss pattern",
+      "next": "vl_onset",
+      "icon": "Eye"
+    }
+  ]
+},
+  vl_onset: {
+  "pathTitle": "فرز فقدان الرؤية",
+  "pathTitleEn": "Visual Loss Triage",
+  "question": "ما نمط بدء فقدان الرؤية؟",
+  "questionEn": "What is the onset and course of visual loss?",
+  "hint": "وثّق العين المصابة ووقت البداية وقياس حدة البصر إن أمكن دون تأخير الإحالة.",
+  "hintEn": "Record laterality, onset, and visual acuity if feasible without delaying urgent referral.",
+  "options": [
+    {
+      "label": "مفاجئ أو سريع خلال دقائق إلى ساعات، أو عند الاستيقاظ",
+      "labelEn": "Sudden or rapid onset over minutes to hours, including on waking",
+      "subLabel": "",
+      "subLabelEn": "",
+      "next": "vl_sudden_pain",
+      "icon": "Activity"
+    },
+    {
+      "label": "تدهور خلال أيام إلى أسابيع، أو نمط غير واضح",
+      "labelEn": "Progression over days to weeks, or unclear onset",
+      "subLabel": "يحتاج فحصاً عينياً سريعاً بحسب الأعراض",
+      "subLabelEn": "Requires timely examination based on clinical features",
+      "next": "RES_VL_UNDIFFERENTIATED",
+      "icon": "Activity"
+    },
+    {
+      "label": "تدريجي خلال أشهر إلى سنوات دون تغير حديث مفاجئ",
+      "labelEn": "Gradual over months to years without recent acute change",
+      "subLabel": "",
+      "subLabelEn": "",
+      "next": "vl_gradual",
+      "icon": "Activity"
+    }
+  ]
+},
   vl_sudden_pain: {
-    pathTitle: 'هبوط رؤية مفاجئ',
-    pathTitleEn: 'Sudden Visual Loss',
-    question: 'هل الهبوط المفاجئ مصحوب بألم شديد في العين أو الصداع والغثيان؟',
-    questionEn: 'Is the sudden visual loss accompanied by severe eye pain, headache, or nausea?',
-    hint: 'الألم الحاد مع هبوط الرؤية علامة خطيرة لارتفاع ضغط العين الحاد أو التهاب قزحي حاد',
-    hintEn: 'Severe pain with vision loss is a hallmark of acute glaucoma or acute uveitis',
-    options: [
-      {
-        label: 'نعم، ألم شديد جداً مع احمرار/غباش قرنية وغثيان أو تقيؤ',
-        labelEn: 'Yes, severe deep pain, corneal haziness, nausea or vomiting',
-        subLabel: 'احتقان تاجي، حدقة شبه متسعة غير متفاعلة، قساوة المقلة باللمس',
-        subLabelEn: 'Ciliary flush, mid-dilated fixed pupil, rock-hard globe on palpation',
-        next: 'RES_GLAUCOMA',
-        icon: 'AlertOctagon'
-      },
-      {
-        label: 'لا، هبوط الرؤية بدون أي ألم إطلاقاً (Painless)',
-        labelEn: 'No, visual loss is completely painless',
-        subLabel: 'المريض لا يشكو من وجع أو احمرار مرافق',
-        subLabelEn: 'No ocular pain, redness, or periocular ache reported',
-        next: 'vl_painless_type',
-        icon: 'EyeOff'
-      }
-    ]
-  },
+  "pathTitle": "فرز فقدان الرؤية",
+  "pathTitleEn": "Visual Loss Triage",
+  "question": "هل يصاحب الفقدان المفاجئ ألم عيني شديد أو احمرار أو رهاب ضوء؟",
+  "questionEn": "Is sudden visual loss associated with severe eye pain, redness, or photophobia?",
+  "hint": "الألم مع فقدان الرؤية يستدعي استبعاد أسباب مهددة للبصر؛ لا يؤكد الزرق وحده.",
+  "hintEn": "Pain with visual loss may reflect several sight-threatening disorders, not glaucoma alone.",
+  "options": [
+    {
+      "label": "نعم: ألم شديد أو احمرار أو هالات أو غثيان/قيء",
+      "labelEn": "Yes: severe pain, redness, halos, nausea, or vomiting",
+      "subLabel": "اشتباه طارئ عيني مؤلم، بما فيه انغلاق الزاوية",
+      "subLabelEn": "Painful ocular emergency including possible angle closure",
+      "next": "RES_GLAUCOMA",
+      "icon": "AlertOctagon"
+    },
+    {
+      "label": "لا: فقدان الرؤية دون ألم عيني ملحوظ",
+      "labelEn": "No: visual loss without significant eye pain",
+      "subLabel": "",
+      "subLabelEn": "",
+      "next": "vl_painless_type",
+      "icon": "Activity"
+    }
+  ]
+},
   vl_painless_type: {
-    pathTitle: 'هبوط رؤية مفاجئ بدون ألم',
-    pathTitleEn: 'Painless Sudden Visual Loss',
-    question: 'ما هي الأعراض المصاحبة للهبوط المفاجئ غير المؤلم؟',
-    questionEn: 'What specific associated visual symptoms does the patient report?',
-    hint: 'تفريق انفصال الشبكية عن الحوادث الوعائية الخطيرة للشبكية',
-    hintEn: 'Differentiating retinal detachment from retinal vascular occlusions (Stroke alert)',
-    options: [
-      {
-        label: 'رؤية ستارة سوداء تسقط أو ووميض ضوئي (Flashes & Floaters)',
-        labelEn: 'Descending black curtain/shadow or sudden light flashes & floaters',
-        subLabel: 'فقدان جزء من المجال البصري كالستارة أو الأجسام العائمة',
-        subLabelEn: 'Peripheral visual field loss or dark floaters shower',
-        next: 'RES_RETINAL_DET',
-        icon: 'CloudRain'
-      },
-      {
-        label: 'فقدان رؤية مفاجئ كامل أو جزئي كالظلام التام (اشتباه انسداد وعائي CRAO/CRVO)',
-        labelEn: 'Sudden complete blackness/darkness in one eye (CRAO / CRVO suspicion)',
-        subLabel: 'انعدام مفاجئ للبصر في عين واحدة (Oculomics Alert)',
-        subLabelEn: 'Acute painless blackout (Oculomics vascular emergency)',
-        next: 'RES_OCULOMICS_ALERT',
-        icon: 'Activity'
-      }
-    ]
-  },
+  "pathTitle": "فرز فقدان الرؤية",
+  "pathTitleEn": "Visual Loss Triage",
+  "question": "ما العرض الأبرز مع فقدان الرؤية المفاجئ غير المؤلم؟",
+  "questionEn": "What best describes the acute painless visual symptoms?",
+  "hint": "الأعراض ترشد إلى التشخيص التفريقي ولا تؤكد سبباً بعينه.",
+  "hintEn": "Symptoms guide differential diagnosis but are not diagnostic.",
+  "options": [
+    {
+      "label": "ستارة أو ظل، ومضات جديدة أو زيادة مفاجئة في العوائم",
+      "labelEn": "Curtain/shadow, new flashes, or sudden increase in floaters",
+      "subLabel": "اشتباه تمزق أو انفصال شبكية أو نزف زجاجي",
+      "subLabelEn": "Possible retinal tear/detachment or vitreous hemorrhage",
+      "next": "RES_RETINAL_DET",
+      "icon": "CloudRain"
+    },
+    {
+      "label": "فقدان مفاجئ واضح للرؤية في عين واحدة دون ألم، مع أو دون عودة الرؤية",
+      "labelEn": "Sudden significant painless loss of vision in one eye, with or without recovery",
+      "subLabel": "استبعاد نقص التروية الشبكية الحاد",
+      "subLabelEn": "Exclude acute retinal ischemia",
+      "next": "RES_OCULOMICS_ALERT",
+      "icon": "AlertOctagon"
+    },
+    {
+      "label": "فقدان رؤية آخر أو غير محدد، أو لا ينطبق أي وصف",
+      "labelEn": "Other or unclear visual loss; none of the descriptions fit",
+      "subLabel": "لا تفترض تشخيصاً من الخيارات المتاحة",
+      "subLabelEn": "Do not force a diagnosis",
+      "next": "RES_VL_UNDIFFERENTIATED",
+      "icon": "Eye"
+    }
+  ]
+},
   vl_gradual: {
-    pathTitle: 'ضعف رؤية تدريجي',
-    pathTitleEn: 'Gradual Visual Loss',
-    question: 'عند إجراء فحص الثقب الصغير (Pinhole Test)، هل تحسن البصر؟',
-    questionEn: 'When performing the Pinhole Test, does visual acuity improve?',
-    hint: 'فحص الثقب الدقيق يفرّق بين عيوب الانكسار الضوئية والأمراض العضوية للعين',
-    hintEn: 'The pinhole test reliably differentiates refractive errors from organic ocular pathologies',
-    options: [
-      {
-        label: 'نعم، تحسن البصر بشكل ملحوظ عبر الثقب (Pinhole Improved)',
-        labelEn: 'Yes, vision markedly improved through pinhole (Refractive Error)',
-        subLabel: 'علامة كلاسيكية تشير إلى عيب انكساري بالعين',
-        subLabelEn: 'Classic optical indicator of uncorrected refractive error',
-        next: 'RES_REFRACTIVE',
-        icon: 'Glasses'
-      },
-      {
-        label: 'لا، لم يتحسن البصر عبر الثقب (No Improvement)',
-        labelEn: 'No, vision did not improve with pinhole (Organic cause)',
-        subLabel: 'يشير إلى سبب عضوي في العدسة أو الشبكية أو العصب البصري',
-        subLabelEn: 'Points to media opacity (cataract) or retinal/neural pathology',
-        next: 'vl_gradual_cause',
-        icon: 'ScanEye'
-      }
-    ]
-  },
+  "pathTitle": "فرز فقدان الرؤية",
+  "pathTitleEn": "Visual Loss Triage",
+  "question": "هل تتحسن حدة البصر باستخدام الثقب الصغير (Pinhole)؟",
+  "questionEn": "Does visual acuity improve with a pinhole?",
+  "hint": "التحسن يرجّح مكوّناً انكسارياً ولا يستبعد أمراض العين؛ قيّم العلامات الأخرى.",
+  "hintEn": "Improvement suggests a refractive component but does not exclude coexisting disease.",
+  "options": [
+    {
+      "label": "نعم، تتحسن الرؤية دون علامات إنذار أخرى",
+      "labelEn": "Yes, vision improves and no other warning features are identified",
+      "subLabel": "",
+      "subLabelEn": "",
+      "next": "RES_REFRACTIVE",
+      "icon": "Activity"
+    },
+    {
+      "label": "لا، لا تتحسن أو الفحص غير متاح أو النتيجة غير واضحة",
+      "labelEn": "No improvement, test unavailable, or result uncertain",
+      "subLabel": "",
+      "subLabelEn": "",
+      "next": "vl_gradual_cause",
+      "icon": "Activity"
+    }
+  ]
+},
   vl_gradual_cause: {
-    pathTitle: 'ضعف رؤية تدريجي عضوي',
-    pathTitleEn: 'Organic Gradual Visual Loss',
-    question: 'ما هي العلامة السريرية الأبرز وتاريخ المريض المرضي؟',
-    questionEn: 'What is the primary examination finding and medical history?',
-    hint: 'فحص الحدقة والعدسة بالكشاف وسؤال المريض عن السكري والضغط',
-    hintEn: 'Inspect pupil with penlight for red reflex/cataract and check diabetes/hypertension status',
-    options: [
-      {
-        label: 'بياض/تغير في لون الحدقة (عتمة بالعدسة / ماء أبيض)',
-        labelEn: 'Whitish/greyish pupil opacity (Cataract / Media Opacity)',
-        subLabel: 'عدم وضوح المنعكس الأحمر أو رؤية عتامة رمادية/بيضاء خلف الحدقة',
-        subLabelEn: 'Diminished red reflex or visible lens opacification',
-        next: 'RES_CATARACT',
-        icon: 'CircleDot'
-      },
-      {
-        label: 'العدسة شفافة والمريض لديه تاريخ سكري أو ارتفاع ضغط دم',
-        labelEn: 'Clear crystalline lens with history of Diabetes or Hypertension',
-        subLabel: 'اشتباه اعتلال الشبكية السكري أو المائي (DR / Oculomics)',
-        subLabelEn: 'Suspected Diabetic/Hypertensive Retinopathy screening',
-        next: 'RES_DR_SCREENING',
-        icon: 'HeartPulse'
-      }
-    ]
-  },
+  "pathTitle": "فرز فقدان الرؤية",
+  "pathTitleEn": "Visual Loss Triage",
+  "question": "ما الموجود السريري الأبرز في ضعف الرؤية التدريجي؟",
+  "questionEn": "What is the most relevant finding in gradual visual loss?",
+  "hint": "لا تكفي العلامات التالية وحدها لإثبات التشخيص؛ افحص قاع العين عند الإمكان.",
+  "hintEn": "These findings alone do not establish a diagnosis; examine the fundus when feasible.",
+  "options": [
+    {
+      "label": "عتامة عدسة مرجحة بفحص العين أو ضعف المنعكس الأحمر",
+      "labelEn": "Suspected lens opacity or reduced red reflex on examination",
+      "subLabel": "استبعاد أسباب أخرى لضعف المنعكس الأحمر أو ابيضاض الحدقة",
+      "subLabelEn": "Exclude other causes of abnormal red reflex or leukocoria",
+      "next": "RES_CATARACT",
+      "icon": "CircleDot"
+    },
+    {
+      "label": "سكري أو ارتفاع ضغط أو اشتباه اعتلال شبكي دون علامات إسعافية",
+      "labelEn": "Diabetes, hypertension, or possible retinopathy without emergency features",
+      "subLabel": "عوامل الخطورة لا تثبت وجود اعتلال شبكي",
+      "subLabelEn": "Risk factors do not confirm retinopathy",
+      "next": "RES_DR_SCREENING",
+      "icon": "HeartPulse"
+    },
+    {
+      "label": "لا توجد علامات مميزة أو يوجد شك في السبب",
+      "labelEn": "No defining findings or the cause remains uncertain",
+      "subLabel": "",
+      "subLabelEn": "",
+      "next": "RES_VL_UNDIFFERENTIATED",
+      "icon": "Activity"
+    }
+  ]
+},
 
   // ==================== PATH 2: RED EYE ====================
   red_eye: {
     id: 're_pain',
     pathTitle: 'عين حمراء',
     pathTitleEn: 'Red Eye & Inflammation',
-    question: 'هل احمرار العين مصحوب بألم شديد أو هبوط في حدة الرؤية؟',
-    questionEn: 'Is the red eye accompanied by severe pain or reduced visual acuity?',
+    question: 'هل توجد مع احمرار العين أي علامات إنذار، مثل ألم شديد، أو انخفاض الرؤية، أو رهاب الضوء الشديد، أو عتامة القرنية، أو رؤية هالات مع صداع أو غثيان، أو استعمال العدسات اللاصقة مع ألم أو رهاب الضوء؟',
+    questionEn: 'Does the red eye have any warning features, such as severe pain, reduced vision, marked photophobia, corneal opacity, halos with headache or nausea, or contact lens wear with pain or photophobia?',
     hint: 'الألم الحاد أو تأثر النظر يحوّل العين الحمراء من روتينية إلى طارئة فوراً',
     hintEn: 'Severe pain, ciliary flush, or reduced vision indicates a sight-threatening emergency',
     options: [
       {
-        label: 'نعم، يوجد ألم شديد أو انخفاض ملحوظ في حدة الرؤية',
-        labelEn: 'Yes, severe deep pain or noticeable decrease in visual acuity',
+        label: 'نعم، توجد علامة إنذار واحدة أو أكثر',
+        labelEn: 'Yes, one or more warning features are present',
         subLabel: 'ألم عميق، تحسس شديد من الضوء (Photophobia)، عدم وضوح النظر',
         subLabelEn: 'Deep ache, severe photophobia, blurred vision (Corneal / Uveal emergency)',
-        next: 're_cornea_check',
+        next: 'RES_GLAUCOMA',
         icon: 'AlertCircle'
       },
       {
-        label: 'لا، انزعاج خفيف/حكة مع رؤية سليمة تماماً',
-        labelEn: 'No, mild discomfort/itching with completely normal vision',
+        label: 'لا، لم تُكتشف أي من علامات الإنذار المذكورة بعد التقييم',
+        labelEn: 'No warning features identified after screening',
         subLabel: 'لا يوجد ألم عميق، النظر طبيعي، مجرد حرقان أو إفرازات',
         subLabelEn: 'No deep pain, normal acuity, superficial irritation or discharge only',
         next: 're_discharge',
@@ -432,267 +497,364 @@ export const decisionTrees: Record<string, TriageNode> = {
 };
 
 export const resultsDatabase: Record<string, TriageResult> = {
+
   RES_GLAUCOMA: {
-    id: 'RES_GLAUCOMA',
-    type: 'URGENT',
-    title: 'ارتفاع ضغط العين الحاد المغلق الزاوية',
-    titleEn: 'Acute Angle-Closure Glaucoma (AACG)',
-    englishTitle: 'Acute Angle-Closure Glaucoma (AACG)',
-    badgeText: 'طوارئ عيون قصوى 🔴',
-    badgeTextEn: 'Critical Ocular Emergency 🔴',
-    summary: 'حالة طوارئ بصرية حادة تهدد العصب البصري بالعمى الدائم خلال ساعات نتيجة انغلاق زاوية التصريف وارتفاع حاد في ضغط العين (IOP > 40-60 mmHg).',
-    summaryEn: 'Acute sight-threatening ophthalmic emergency causing irreversible optic nerve damage within hours due to trabecular outflow blockage and severe intraocular pressure spike (IOP > 40-60 mmHg).',
-    redFlags: [
-      'ألم عيني ورأسي مبرح مع غثيان وقيء متكرر',
-      'حدقة شبه متسعة وغير متفاعلة للضوء (Mid-dilated sluggish/fixed pupil)',
-      'عتامة في القرنية مع غباش شديد في الرؤية ورؤية هالات ملونة حول الأضواء',
-      'قساوة مقلة العين كالحجر عند الجس المقارن برفق (Stony hard globe)'
-    ],
-    redFlagsEn: [
-      'Severe excruciating ocular & frontal headache with nausea and vomiting',
-      'Mid-dilated, vertically oval, unreactive fixed pupil',
-      'Steamy/hazy cornea, blurred vision, and colored halos around lights',
-      'Rock-hard eyeball on gentle digital palpation compared to normal eye'
-    ],
-    contraindications: [
-      '⚠️ حظر تام لتغطية العين أو وضع أي ضمادة أو شاش.',
-      '⚠️ حظر تام لإعطاء قطرات توسيع الحدقة (Mydriatics/Cycloplegics) لأنها تفاقم الانسداد فوراً!'
-    ],
-    contraindicationsEn: [
-      '⚠️ NEVER patch or bandage the eye.',
-      '⚠️ NEVER administer dilating drops (Mydriatics/Cycloplegics) - this will worsen pupillary block immediately!'
-    ],
-    steps: [
-      'إعطاء خافضات ضغط العين المتاحة فوراً: قطرة Timolol 0.5% + قطرة Brimonidine 0.2% + قطرة Pilocarpine 2% (بعد انخفاض الضغط قليلاً).',
-      'إعطاء حبوب Acetazolamide (Diamox) 500mg فموياً (إن توفرت ولم تكن هناك موانع كحساسية السلفا).',
-      'تسكين الألم ومضاد قيء للحد من زيادة الضغط داخل العين.',
-      'عدم تغطية العين نهائياً وإبقاء المريض مستلقياً مع رفع الرأس 30 درجة.',
-      'تحويل طارئ فوري لمركز جراحة عيون لإجراء ثقب القزحية بالليزر (Laser Peripheral Iridotomy - LPI).'
-    ],
-    stepsEn: [
-      'Administer available topical IOP-lowering drops: Timolol 0.5% + Brimonidine 0.2% + Pilocarpine 2% (after pressure begins to drop).',
-      'Administer oral Acetazolamide (Diamox) 500mg stat (if available and no sulfa allergy).',
-      'Provide systemic analgesia and antiemetics to prevent Valsalva-induced pressure spikes.',
-      'Do NOT patch the eye; position patient supine with head elevated 30 degrees.',
-      'Immediate emergency referral to an eye center for Laser Peripheral Iridotomy (LPI).'
-    ],
-    medications: [
-      { name: 'Timolol 0.5% eye drops', dose: 'قطرة واحدة في العين المصابة فوراً', doseEn: '1 drop in affected eye immediately', note: 'احذر في مرضى الربو الشديد أو فشل القلب', noteEn: 'Caution in severe asthma or cardiac failure' },
-      { name: 'Acetazolamide (Diamox) 500mg', dose: 'قرصين (500mg) بالفم فوراً', doseEn: '500mg orally stat', note: 'خافض جهازي لضغط السائل العيني', noteEn: 'Systemic carbonic anhydrase inhibitor' },
-      { name: 'Pilocarpine 2%', dose: 'قطرة واحدة بعد بدء هبوط الضغط', doseEn: '1 drop after initial pressure reduction', note: 'لقبض الحدقة وفتح الزاوية', noteEn: 'Induces miosis to open iridocorneal angle' }
-    ],
-    referralTime: 'خلال 2 إلى 4 ساعات كحد أقصى (فوري)',
-    referralTimeEn: 'Within 2 to 4 hours maximum (Immediate)',
-    referralDestination: 'قسم طوارئ عيون مجهز بمصباح شقي وليزر YAG',
-    referralDestinationEn: 'Ophthalmic Emergency Dept with Slit-Lamp & YAG Laser',
-    icon: 'AlertOctagon'
-  },
+  "id": "RES_GLAUCOMA",
+  "type": "CRITICAL",
+  "title": "علامات إنذار عينية — اشتباه بحالة طارئة مهددة للبصر",
+  "titleEn": "Ocular Warning Signs — Suspected Sight-Threatening Emergency",
+  "englishTitle": "Ocular Warning Signs — Suspected Sight-Threatening Emergency",
+  "badgeText": "طوارئ فورية 🔴",
+  "badgeTextEn": "Immediate Emergency 🔴",
+  "summary": "وجود ألم شديد أو نقص في الرؤية أو رهاب ضوء واضح أو عتامة قرنية أو هالات مصحوبة بصداع أو غثيان، أو أعراض مقلقة لدى مستخدمي العدسات اللاصقة، قد يشير إلى حالة عينية مهددة للبصر، مثل التهاب القرنية أو انغلاق الزاوية الحاد أو التهاب داخل العين. لا يمكن تحديد التشخيص من الأعراض وحدها، وتلزم إحالة طارئة لتقييم طبيب العيون.",
+  "summaryEn": "Severe eye pain, reduced vision, marked photophobia, corneal opacity, halos with headache or nausea, or concerning symptoms in contact lens wearers may indicate a sight-threatening ocular emergency, including keratitis, acute angle closure, or intraocular inflammation. Symptoms alone cannot establish the diagnosis; immediate emergency ophthalmology assessment is required.",
+  "redFlags": [
+    "ألم شديد مع نقص الرؤية",
+    "احمرار شديد أو عتامة قرنية أو هالات مع غثيان",
+    "رهاب ضوء شديد أو تدهور سريع"
+  ],
+  "redFlagsEn": [
+    "Severe pain with reduced vision",
+    "Marked redness, corneal haze, or halos with nausea",
+    "Severe photophobia or rapid deterioration"
+  ],
+  "contraindications": [
+    "لا تضغط على المقلة ولا تستخدم الجس الرقمي لتشخيص ارتفاع الضغط.",
+    "لا تعط قطرات موسعة للحدقة أو أدوية ضغط العين تلقائياً دون تقييم سريري."
+  ],
+  "contraindicationsEn": [
+    "Do not press or digitally palpate the globe to diagnose elevated IOP.",
+    "Do not automatically administer dilating drops or IOP-lowering medications without clinical assessment."
+  ],
+  "steps": [
+    "إحالة فورية إلى طوارئ العيون؛ لا تؤخر النقل لاستكمال فحوص غير متاحة.",
+    "قياس حدة البصر والحدقة وضغط العين إذا كان ذلك آمناً ومتاحاً، مع استبعاد الإصابة النافذة قبل قياس الضغط.",
+    "يقرر طبيب العيون خفض ضغط العين والعلاج النوعي وفق التشخيص وموانع الأدوية."
+  ],
+  "stepsEn": [
+    "Immediate emergency ophthalmology referral; do not delay transfer for unavailable tests.",
+    "Document visual acuity and pupil findings; measure IOP only when safe and available, after excluding possible open-globe injury.",
+    "IOP-lowering therapy and definitive treatment require clinician assessment of diagnosis and contraindications."
+  ],
+  "referralTime": "فوراً",
+  "referralTimeEn": "Immediately",
+  "referralDestination": "طوارئ العيون",
+  "referralDestinationEn": "Emergency Ophthalmology",
+  "icon": "AlertOctagon"
+},
 
   RES_RETINAL_DET: {
-    id: 'RES_RETINAL_DET',
-    type: 'URGENT',
-    title: 'اشتباه انفصال شبكية حاد',
-    titleEn: 'Suspected Rhegmatogenous Retinal Detachment (RRD)',
-    englishTitle: 'Suspected Rhegmatogenous Retinal Detachment (RRD)',
-    badgeText: 'حالة جراحية طارئة 🔴',
-    badgeTextEn: 'Surgical Emergency 🔴',
-    summary: 'انفصال الطبقة الحساسة للشبكية عن الظهارة الصباغية، يتطلب تدخلاً جراحياً عاجلاً قبل وصول الانفصال إلى لطخة الإبصار (Macula-off) لمنع العجز البصري الدائم.',
-    summaryEn: 'Separation of neurosensory retina from underlying retinal pigment epithelium (RPE), demanding prompt vitreoretinal surgery before macular involvement (Macula-off) to prevent irreversible visual loss.',
-    redFlags: [
-      'رؤية ستارة أو ظل مظلم يزحف تدريجياً عبر حقل الرؤية',
-      'وميض ضوئي مفاجئ (Photopsia) في المحيط',
-      'ظهور مفاجئ لكميات كبيرة من الأجسام العائمة الشبيهة بالسخام (Floaters shower)'
-    ],
-    redFlagsEn: [
-      'Descending dark curtain or peripheral shadow expanding across visual field',
-      'Sudden peripheral light flashes (Photopsia)',
-      'Sudden onset dense shower of black floaters/spots'
-    ],
-    contraindications: [
-      '⚠️ حظر الإجهاد البدني، حمل الأثقال، أو حركات الرأس العنيفة.',
-      '⚠️ حظر الضغط على مقلة العين.'
-    ],
-    contraindicationsEn: [
-      '⚠️ Avoid vigorous head movements, heavy lifting, or physical exertion.',
-      '⚠️ Do not apply external pressure on the globe.'
-    ],
-    steps: [
-      'تنبيه المريض بالراحة التامة والاستلقاء الهادئ وتجنب الحركات المفاجئة للرأس.',
-      'تغطية خفيفة للعين لحمايتها ومنع إجهاد حركة العين السريعة.',
-      'فحص حدة البصر في كلتا العينين وتسجيلها بدقة في تقرير التحويل.',
-      'تحويل جراحي عاجل لمستشفى تخصصي مزود بجراح شبكية (Vitreoretinal Surgeon) خلال 24-48 ساعة.'
-    ],
-    stepsEn: [
-      'Instruct patient to maintain quiet bed rest and avoid sudden head movements.',
-      'Place a light eye shield/patch to minimize saccadic eye movement strain.',
-      'Measure visual acuity in both eyes and document precisely in referral report.',
-      'Urgent surgical transfer to a tertiary hospital with Vitreoretinal surgeon within 24-48 hours.'
-    ],
-    referralTime: 'خلال 24 إلى 48 ساعة (عاجل جداً)',
-    referralTimeEn: 'Within 24 to 48 hours (Highly Urgent)',
-    referralDestination: 'وحدة جراحة الشبكية والجسم الزجاجي (Vitreoretinal Unit)',
-    referralDestinationEn: 'Vitreoretinal Surgical Unit',
-    icon: 'CloudRain'
-  },
+  "id": "RES_RETINAL_DET",
+  "type": "URGENT",
+  "title": "اشتباه تمزق أو انفصال شبكية",
+  "titleEn": "Possible Retinal Tear or Detachment",
+  "englishTitle": "Possible Retinal Tear or Detachment",
+  "badgeText": "تقييم عاجل 🟠",
+  "badgeTextEn": "Urgent Assessment 🟠",
+  "summary": "ظهور ستارة أو ظل أو ومضات أو عوائم جديدة قد يشير إلى تمزق أو انفصال شبكي أو نزف زجاجي؛ يلزم فحص شبكية موسع لتحديد السبب.",
+  "summaryEn": "New curtain, shadow, flashes, or floaters may indicate a retinal tear, detachment, or vitreous hemorrhage; a dilated retinal examination is needed.",
+  "redFlags": [
+    "ستارة أو عيب مجال بصري جديد",
+    "ومضات مع عوائم جديدة كثيرة",
+    "انخفاض حدة الرؤية المركزية"
+  ],
+  "redFlagsEn": [
+    "New curtain or field defect",
+    "New flashes with numerous floaters",
+    "Loss of central visual acuity"
+  ],
+  "contraindications": [
+    "لا تؤخر التقييم بانتظار ظهور ستارة كاملة."
+  ],
+  "contraindicationsEn": [
+    "Do not delay assessment while waiting for a complete curtain."
+  ],
+  "steps": [
+    "قياس وتوثيق حدة البصر في كل عين إن أمكن.",
+    "ترتيب فحص شبكية موسع عاجل في اليوم نفسه لدى اختصاصي عيون؛ الاشتباه بانفصال يهدد اللطخة يستدعي تقييماً فورياً.",
+    "يحدد اختصاصي الشبكية الحاجة للتصوير أو الليزر أو الجراحة وتوقيتها."
+  ],
+  "stepsEn": [
+    "Document visual acuity in each eye if feasible.",
+    "Arrange same-day dilated retinal examination; suspected macula-threatening detachment requires immediate specialist assessment.",
+    "Retina specialist determines need and timing of imaging, laser, or surgery."
+  ],
+  "referralTime": "اليوم نفسه؛ فوراً عند الاشتباه بانفصال مهدد للرؤية المركزية",
+  "referralTimeEn": "Same day; immediately for suspected macula-threatening detachment",
+  "referralDestination": "اختصاصي عيون / وحدة الشبكية",
+  "referralDestinationEn": "Ophthalmology / Retina Service",
+  "icon": "CloudRain"
+},
 
   RES_OCULOMICS_ALERT: {
-    id: 'RES_OCULOMICS_ALERT',
-    type: 'URGENT',
-    title: 'انسداد وعائي بالشبكية / إنذار جهازي وعائي',
-    titleEn: 'Central Retinal Vascular Occlusion (CRAO / CRVO - Stroke Alert)',
-    englishTitle: 'Central Retinal Artery/Vein Occlusion (CRAO / CRVO - Oculomics Alert)',
-    badgeText: 'طوارئ وعائية قصوى 🔴',
-    badgeTextEn: 'Vascular Emergency / Stroke Alert 🔴',
-    summary: 'انسداد شريان أو وريد الشبكية المركزي هو سكتة شبكية عينية (Eye Stroke)، ويعد مؤشراً حرجاً لخطر وشيك لسكتة دماغية أو احتشاء قلبي حاد.',
-    summaryEn: 'Central retinal artery/vein occlusion represents an ocular stroke, carrying an immediate high risk for impending cerebrovascular stroke or acute myocardial infarction.',
-    redFlags: [
-      'فقدان مفاجئ وشديد للبصر بدون ألم خلال ثوانٍ أو دقائق',
-      'وجود عيب حدقي وارد نسبي (Relative Afferent Pupillary Defect - RAPD)',
-      'تاريخ مرضي بارتفاع الضغط، السكري، التدخين، أو أمراض القلب التصلبية'
-    ],
-    redFlagsEn: [
-      'Sudden, profound, painless loss of vision occurring in seconds to minutes',
-      'Presence of Relative Afferent Pupillary Defect (RAPD / Marcus Gunn pupil)',
-      'Comorbid vascular risk factors: hypertension, diabetes, carotid disease, smoking'
-    ],
-    contraindications: [
-      '⚠️ لا تتجاهل التقييم القلبي الوعائي الفوري للمريض.',
-      '⚠️ تجنب إهدار الوقت في قطرات غير موجهة.'
-    ],
-    contraindicationsEn: [
-      '⚠️ Do not ignore immediate cardiovascular/stroke risk evaluation.',
-      '⚠️ Do not waste precious time with ineffective topical drops.'
-    ],
-    steps: [
-      'قياس ضغط الدم، سكر الدم العشوائي، وتخطيط القلب (ECG) فوراً في المركز الميداني.',
-      'في اشتباه انسداد الشريان المركزي (CRAO) في الساعات الأولى (< 4 ساعات): تدليك خفيف لمقلة العين متقطع لتحريك الصمة وإعطاء أكسجين إن توفر.',
-      'إعطاء قرص أسبرين 300mg فموياً (إن لم تكن هناك موانع لنزف حاد).',
-      'تحويل عاجل مشترك لطوارئ العيون + قسم الباطنة / السكتات الدماغية والقلب.'
-    ],
-    stepsEn: [
-      'Immediately check vital signs, blood glucose, and perform 12-lead ECG at field station.',
-      'In early CRAO (< 4 hours): perform gentle ocular digital massage (15s on/off) and provide supplemental high-flow oxygen if available.',
-      'Administer soluble Aspirin 300mg orally (if no active hemorrhagic contraindications).',
-      'Immediate co-referral to Ophthalmology Emergency + Acute Stroke / Cardiology Unit.'
-    ],
-    medications: [
-      { name: 'Aspirin 300mg', dose: 'قرص واحد للمضغ فموياً', doseEn: '300mg chewable oral tablet', note: 'بعد التأكد من عدم وجود موانع تخثرية نشطة', noteEn: 'Verify absence of active GI bleeding or hemorrhagic stroke' }
-    ],
-    referralTime: 'فوري (خلال دقائق إلى ساعة كحالة Stroke)',
-    referralTimeEn: 'Immediate (within minutes to 1 hour as Stroke protocol)',
-    referralDestination: 'طوارئ مستشفى عام متكامل (عيون + باطنة وعائية + أعصاب)',
-    referralDestinationEn: 'Comprehensive Emergency Dept (Ophthalmology + Stroke/Neuro Team)',
-    icon: 'Activity'
-  },
+  "id": "RES_OCULOMICS_ALERT",
+  "type": "CRITICAL",
+  "title": "اشتباه نقص تروية شبكية حاد أو عابر",
+  "titleEn": "Possible Acute or Transient Retinal Ischemia",
+  "englishTitle": "Possible Acute or Transient Retinal Ischemia",
+  "badgeText": "طوارئ فورية 🔴",
+  "badgeTextEn": "Immediate Emergency 🔴",
+  "summary": "فقدان الرؤية الأحادي المفاجئ غير المؤلم، حتى لو زال، قد يمثل انسداد شريان شبكي أو نقص تروية عابراً؛ يلزم تقييم إسعافي وفق مسار السكتة الدماغية. لا يمكن تأكيد CRAO أو CRVO بالأعراض وحدها.",
+  "summaryEn": "Sudden painless monocular visual loss, even if transient, may represent retinal arterial occlusion or transient ischemia and requires emergency stroke-pathway assessment. Symptoms alone cannot diagnose CRAO or CRVO.",
+  "redFlags": [
+    "فقدان مفاجئ للرؤية في عين واحدة",
+    "نوبة عابرة من فقدان الرؤية",
+    "أعراض عصبية مرافقة أو حديثة"
+  ],
+  "redFlagsEn": [
+    "Sudden monocular vision loss",
+    "Transient monocular blackout",
+    "Concurrent or recent neurologic symptoms"
+  ],
+  "contraindications": [
+    "لا تؤخر الإحالة بتدليك العين أو إجراءات غير مثبتة.",
+    "لا تعتبر انسداد الوريد الشبكي (CRVO) مساوياً لانسداد الشريان الشبكي (CRAO) في مسار السكتة."
+  ],
+  "contraindicationsEn": [
+    "Do not delay referral for ocular massage or unproven maneuvers.",
+    "Do not equate CRVO with CRAO for stroke-pathway decisions."
+  ],
+  "steps": [
+    "إحالة فورية إلى طوارئ مستشفى لديه مسار تقييم السكتة الدماغية، مع تقييم عيني متزامن عند الإمكان.",
+    "سجّل وقت آخر رؤية طبيعية والأعراض العصبية والعلامات الحيوية دون تأخير النقل.",
+    "يقرر الفريق المختص الفحوص الوعائية والقلبية والعلاج وفق التشخيص؛ لا تبدأ تدليك العين أو الأسبرين تلقائياً."
+  ],
+  "stepsEn": [
+    "Immediate emergency referral to a stroke-capable service with parallel ophthalmic evaluation when available.",
+    "Record last-known-well time, neurologic symptoms, and vital signs without delaying transfer.",
+    "Specialists determine vascular/cardiac investigations and treatment; do not routinely perform ocular massage or start aspirin."
+  ],
+  "referralTime": "فوراً حتى لو عادت الرؤية",
+  "referralTimeEn": "Immediately, even if vision has recovered",
+  "referralDestination": "طوارئ السكتة الدماغية مع تقييم عيون",
+  "referralDestinationEn": "Stroke-Capable Emergency Department and Ophthalmology",
+  "icon": "Activity"
+},
 
   RES_REFRACTIVE: {
-    id: 'RES_REFRACTIVE',
-    type: 'ROUTINE',
-    title: 'أخطاء انكسارية بصرية',
-    titleEn: 'Refractive Error (Myopia, Hyperopia, Astigmatism, Presbyopia)',
-    englishTitle: 'Refractive Error (Myopia, Hyperopia, Astigmatism, Presbyopia)',
-    badgeText: 'حالة روتينية انكسارية 🟢',
-    badgeTextEn: 'Routine Optical Care 🟢',
-    summary: 'ضعف الرؤية ناتج عن عدم تركز الضوء بدقة على الشبكية بسبب شكل المقلة أو مرونة العدسة، ويتحسن مباشرة عند استخدام الثقب الصغير (Pinhole). لا يوجد خطر عضوي.',
-    summaryEn: 'Visual blurring is caused by optical focal mismatch on the retina, corrected immediately with the Pinhole occluder. No organic or sight-threatening pathology present.',
-    redFlags: [],
-    redFlagsEn: [],
-    contraindications: [],
-    contraindicationsEn: [],
-    steps: [
-      'طمأنة المريض بأن صحة العين الداخلية والعصب البصري والقرنية سليمة تماماً.',
-      'شرح نتيجة فحص الثقب الصغير (Pinhole) الإيجابي للمريض وكيف تحسن البصر.',
-      'توجيه المريض لمركز فحص بصريات مجاور أو قافلة قياس النظر للحصول على نظارة طبية ملائمة.'
-    ],
-    stepsEn: [
-      'Reassure the patient that the cornea, lens, optic nerve, and retina are healthy.',
-      'Explain the positive Pinhole test result demonstrating optical focus improvement.',
-      'Direct patient to optometry clinic or mobile vision caravan for corrective prescription glasses.'
-    ],
-    referralTime: 'عيادة بصريات روتينية خلال أسبوعين إلى شهر',
-    referralTimeEn: 'Routine Optometry appointment within 2-4 weeks',
-    referralDestination: 'أخصائي بصريات / مركز فحص النظر',
-    referralDestinationEn: 'Optometrist / Vision Screening Caravan',
-    icon: 'Glasses'
-  },
+  "id": "RES_REFRACTIVE",
+  "type": "ROUTINE",
+  "title": "اشتباه مكوّن انكساري لضعف الرؤية",
+  "titleEn": "Possible Refractive Component",
+  "englishTitle": "Possible Refractive Component",
+  "badgeText": "متابعة روتينية 🟢",
+  "badgeTextEn": "Routine Assessment 🟢",
+  "summary": "تحسن حدة البصر بالثقب الصغير يرجح وجود خطأ انكساري لكنه لا يثبت سلامة القرنية أو العدسة أو الشبكية أو العصب البصري.",
+  "summaryEn": "Pinhole improvement suggests a refractive component but does not establish that the cornea, lens, retina, or optic nerve is healthy.",
+  "redFlags": [],
+  "redFlagsEn": [],
+  "contraindications": [],
+  "contraindicationsEn": [],
+  "steps": [
+    "وثّق حدة البصر قبل الثقب وبعده في كل عين.",
+    "رتّب فحص انكسار وفحصاً عينياً مناسباً، خاصة إذا استمر ضعف الرؤية أو ظهرت أعراض أخرى.",
+    "إذا حدث فقدان مفاجئ أو ألم أو علامات إنذار، أعد تصنيف الحالة إلى مسار عاجل."
+  ],
+  "stepsEn": [
+    "Record monocular acuity before and after pinhole.",
+    "Arrange refraction and an appropriate eye examination, particularly for persistent symptoms.",
+    "Re-triage urgently if acute loss, pain, or warning features develop."
+  ],
+  "referralTime": "روتيني عند غياب علامات الإنذار",
+  "referralTimeEn": "Routine if no warning features",
+  "referralDestination": "عيادة البصريات / العيون",
+  "referralDestinationEn": "Optometry / Eye Clinic",
+  "icon": "Glasses"
+},
 
   RES_CATARACT: {
-    id: 'RES_CATARACT',
-    type: 'ROUTINE',
-    title: 'الساد / المياه البيضاء الشيخوخية',
-    titleEn: 'Senile / Complicated Cataract',
-    englishTitle: 'Senile / Complicated Cataract',
-    badgeText: 'حالة جراحية مجدولة 🟢',
-    badgeTextEn: 'Elective Surgical Care 🟢',
-    summary: 'عتمة تدريجية في عدسة العين الطبيعية تمنع نفاذ الضوء بوضوح. السبب الأول للعمى القابل للعلاج بالعالم، ونسبة نجاح استعادة البصر بالجراحة ممتازة.',
-    summaryEn: 'Gradual opacification of the natural crystalline lens impairing light transmission. Leading cause of treatable blindness globally, with >98% surgical visual restoration success.',
-    redFlags: [
-      'تأكد من عدم وجود احمرار شديد أو ارتفاع ضغط مصاحب (Phacomorphic glaucoma)'
-    ],
-    redFlagsEn: [
-      'Ensure absence of severe red eye or secondary lens-induced glaucoma'
-    ],
-    contraindications: [
-      '⚠️ لا داعي للاستعجال بالطوارئ ما لم يرتفع ضغط العين أو تلتهب.'
-    ],
-    contraindicationsEn: [
-      '⚠️ No emergency intervention required unless complicated by intraocular hypertension or uveitis.'
-    ],
-    steps: [
-      'طمأنة المريض وأهله بأن المياه البيضاء حالة شائعة جداً وتستجيب لجراحة استحلاب العدسة وزرع عدسة صناعية بنسبة نجاح تفوق 98%.',
-      'فحص حركات العين واستجابة الحدقة للضوء للتأكد من سلامة العصب البصري خلف العتامة.',
-      'تسجيل بيانات المريض في كشوفات قوافل جراحة المياه البيضاء المجانية والمخيمات الجراحية الميدانية.'
-    ],
-    stepsEn: [
-      'Reassure patient that modern phacoemulsification/IOL surgery has an exceptional visual recovery rate (>98%).',
-      'Check pupillary reflexes to confirm intact optic nerve function behind the cataract.',
-      'Enroll patient into elective ophthalmic surgical list or free mobile cataract surgery camp.'
-    ],
-    referralTime: 'جدولة روتينية ضمن قوائم العمليات / القوافل الطبية',
-    referralTimeEn: 'Elective scheduling with cataract surgical mission',
-    referralDestination: 'عيادة جراحة العيون / قوافل مكافحة العمى الميدانية',
-    referralDestinationEn: 'Ophthalmic Surgical Clinic / Vision Outreach Camps',
-    icon: 'CircleDot'
-  },
+  "id": "RES_CATARACT",
+  "type": "FIELD",
+  "title": "اشتباه عتامة عدسة أو خلل في المنعكس الأحمر",
+  "titleEn": "Possible Cataract or Abnormal Red Reflex",
+  "englishTitle": "Possible Cataract or Abnormal Red Reflex",
+  "badgeText": "متابعة بحسب الحالة 🟡",
+  "badgeTextEn": "Risk-Based Follow-Up 🟡",
+  "summary": "عتامة العدسة سبب محتمل لضعف الرؤية التدريجي، لكن ابيضاض الحدقة أو ضعف المنعكس الأحمر لهما أسباب أخرى ويستلزمان فحصاً عينياً لتأكيد السبب.",
+  "summaryEn": "Lens opacity may cause gradual visual loss, but leukocoria or an abnormal red reflex has other causes and requires an eye examination for confirmation.",
+  "redFlags": [
+    "ابيضاض حدقة لدى طفل أو تغير جديد غير مفسر",
+    "ألم أو احمرار أو تدهور سريع",
+    "ضعف رؤية غير متناسب مع العتامة"
+  ],
+  "redFlagsEn": [
+    "Leukocoria in a child or new unexplained pupil whitening",
+    "Pain, redness, or rapid deterioration",
+    "Vision loss disproportionate to apparent opacity"
+  ],
+  "contraindications": [],
+  "contraindicationsEn": [],
+  "steps": [
+    "رتّب فحص عيون لتأكيد وجود الساد واستبعاد الأسباب الأخرى.",
+    "أي ابيضاض حدقة لدى طفل يستدعي إحالة عاجلة جداً، ولا يوضع على قائمة جراحة الساد الروتينية.",
+    "ناقش جراحة الساد فقط بعد تقييم أثره على الوظيفة البصرية وبقية أمراض العين."
+  ],
+  "stepsEn": [
+    "Arrange ophthalmic examination to confirm cataract and exclude other causes.",
+    "Childhood leukocoria requires urgent specialist referral, not routine cataract scheduling.",
+    "Consider cataract surgery only after evaluating visual impact and coexisting eye disease."
+  ],
+  "referralTime": "حسب العمر والأعراض؛ ابيضاض الحدقة لدى طفل عاجل",
+  "referralTimeEn": "Risk-based; childhood leukocoria is urgent",
+  "referralDestination": "عيادة العيون / اختصاصي عيون أطفال عند اللزوم",
+  "referralDestinationEn": "Ophthalmology / Pediatric Ophthalmology when indicated",
+  "icon": "CircleDot"
+},
 
   RES_DR_SCREENING: {
-    id: 'RES_DR_SCREENING',
-    type: 'FIELD',
-    title: 'فحص اعتلال الشبكية السكري والضغطي (Oculomics)',
-    titleEn: 'Diabetic & Hypertensive Retinopathy Screening',
-    englishTitle: 'Diabetic / Hypertensive Retinopathy Screening',
-    badgeText: 'متابعة وفحص ميداني 🟡',
-    badgeTextEn: 'Field Screening & Referral 🟡',
-    summary: 'تأثير مرض السكري وضغط الدم المزمن على الشعيرات الدقيقة للشبكية. يستلزم فحص قاع العين الدوري وضبط السكر التراكمي للوقاية من فقدان البصر.',
-    summaryEn: 'Chronic microvascular retinal damage from diabetes mellitus and hypertension. Requires regular fundus imaging and strict glycemic control to prevent preventable blindness.',
-    redFlags: [
-      'ظهور عتامات مفاجئة تدل على نزف زجاجي (Vitreous hemorrhage)',
-      'تراجع حاد في الرؤية المركزية يشير لوذمة لطخية سكرية (Diabetic Macular Edema - DME)'
-    ],
-    redFlagsEn: [
-      'Sudden dense dark floaters indicative of vitreous hemorrhage',
-      'Rapid drop in central visual acuity suggesting diabetic macular edema (DME)'
-    ],
-    contraindications: [],
-    contraindicationsEn: [],
-    steps: [
-      'التقاط صورة لقاع العين باستخدام الهاتف الذكي مع عدسة فحص الشبكية المحمولة إن توفرت (Fundus Camera / 20D lens).',
-      'فحص سكر الدم التراكمي (HbA1c) وضغط الدم وتوثيقهما.',
-      'توعية المريض بأهمية الضبط الصارم للسكر (HbA1c < 7%) والضغط لحماية الأوعية الدقيقة.',
-      'تحويل لعيادة شبكية لإجراء تصوير مقطعي للشبكية (OCT) وحقن دوائي أو ليزر عند الحاجة.'
-    ],
-    stepsEn: [
-      'Capture mobile smartphone fundus photograph using portable condensing lens if available.',
-      'Record HbA1c and blood pressure values in patient referral card.',
-      'Educate patient on rigorous glycemic (HbA1c < 7%) and blood pressure target control.',
-      'Refer to retina clinic for Optical Coherence Tomography (OCT) and anti-VEGF / laser evaluation.'
-    ],
-    referralTime: 'خلال أسبوعين إلى شهر لعيادة الشبكية',
-    referralTimeEn: 'Within 2 to 4 weeks to Retina Clinic',
-    referralDestination: 'عيادة شبكية العيون + عيادة الباطنة والسكري',
-    referralDestinationEn: 'Retina Subspecialty Clinic + Diabetic Management Team',
-    icon: 'HeartPulse'
-  },
+  "id": "RES_DR_SCREENING",
+  "type": "FIELD",
+  "title": "فحص شبكية لمريض لديه عوامل خطورة",
+  "titleEn": "Retinal Assessment in Diabetes or Hypertension",
+  "englishTitle": "Retinal Assessment in Diabetes or Hypertension",
+  "badgeText": "متابعة بحسب الحالة 🟡",
+  "badgeTextEn": "Risk-Based Follow-Up 🟡",
+  "summary": "وجود السكري أو ارتفاع الضغط يزيد احتمال اعتلال الشبكية لكنه لا يثبت الإصابة. يلزم فحص قاع عين مناسب وتحديد الاستعجال حسب الأعراض والموجودات.",
+  "summaryEn": "Diabetes or hypertension increases retinopathy risk but does not confirm retinal disease. Fundus assessment and urgency depend on symptoms and findings.",
+  "redFlags": [
+    "هبوط رؤية جديد أو سريع",
+    "عوائم كثيفة مفاجئة أو اشتباه نزف زجاجي",
+    "علامات اعتلال ضغط شديد مع أعراض جهازية"
+  ],
+  "redFlagsEn": [
+    "New or rapidly worsening vision loss",
+    "Sudden dense floaters or suspected vitreous hemorrhage",
+    "Severe hypertensive retinal signs with systemic symptoms"
+  ],
+  "contraindications": [],
+  "contraindicationsEn": [],
+  "steps": [
+    "وثّق حدة البصر وضغط الدم وتاريخ السكري والأدوية.",
+    "رتّب فحص قاع العين أو تصويراً شبكياً قابلاً للتقييم؛ OCT عند الاشتباه بوذمة بقعية بحسب المختص.",
+    "وجّه المريض إلى ضبط عوامل الخطورة مع الطبيب المعالج بأهداف علاجية فردية؛ سرّع الإحالة عند ظهور علامات إنذار."
+  ],
+  "stepsEn": [
+    "Document visual acuity, blood pressure, diabetes history, and medications.",
+    "Arrange gradable retinal examination/imaging; OCT for suspected macular edema when indicated.",
+    "Coordinate individualized risk-factor management; expedite referral for warning features."
+  ],
+  "referralTime": "بحسب الأعراض والموجودات؛ عاجل عند علامات الإنذار",
+  "referralTimeEn": "Based on symptoms and findings; urgent for warning features",
+  "referralDestination": "عيادة العيون مع الرعاية الباطنية المناسبة",
+  "referralDestinationEn": "Eye Clinic and Relevant Medical Care",
+  "icon": "HeartPulse"
+},
+
+
+  RES_VL_NEURO_EMERGENCY: {
+  "id": "RES_VL_NEURO_EMERGENCY",
+  "type": "CRITICAL",
+  "title": "فقدان رؤية مع علامات عصبية إسعافية",
+  "titleEn": "Visual Loss with Neurologic Emergency Features",
+  "englishTitle": "Visual Loss with Neurologic Emergency Features",
+  "badgeText": "طوارئ فورية 🔴",
+  "badgeTextEn": "Immediate Emergency 🔴",
+  "summary": "فقدان الرؤية مع عجز عصبي مفاجئ أو فقدان مجال بصري جديد قد يشير إلى سكتة دماغية أو حالة عصبية إسعافية حتى إن زالت الأعراض.",
+  "summaryEn": "Visual loss with sudden neurologic deficits or new visual-field loss may indicate stroke or another neurologic emergency, even when symptoms resolve.",
+  "redFlags": [
+    "ضعف أو خدر أحادي الجانب",
+    "اضطراب الكلام أو الوجه",
+    "فقدان مجال بصري أو ازدواج مفاجئ مع أعراض عصبية"
+  ],
+  "redFlagsEn": [
+    "Unilateral weakness or numbness",
+    "Speech or facial changes",
+    "Acute visual-field loss or diplopia with neurologic symptoms"
+  ],
+  "contraindications": [],
+  "contraindicationsEn": [],
+  "steps": [
+    "فعّل الإسعاف أو الإحالة الفورية لمسار السكتة الدماغية.",
+    "سجّل وقت آخر حالة طبيعية ولا تؤخر النقل لاستكمال فحص عيني.",
+    "تحديد التصوير والعلاج من اختصاص فريق الطوارئ والسكتة."
+  ],
+  "stepsEn": [
+    "Activate emergency stroke referral.",
+    "Record last-known-well time and do not delay transport for an eye examination.",
+    "Emergency/stroke team determines imaging and treatment."
+  ],
+  "referralTime": "فوراً",
+  "referralTimeEn": "Immediately",
+  "referralDestination": "طوارئ السكتة الدماغية",
+  "referralDestinationEn": "Stroke-Capable Emergency Department",
+  "icon": "AlertOctagon"
+},
+
+  RES_VL_GCA: {
+  "id": "RES_VL_GCA",
+  "type": "CRITICAL",
+  "title": "اشتباه التهاب الشريان ذي الخلايا العملاقة",
+  "titleEn": "Possible Giant Cell Arteritis with Visual Symptoms",
+  "englishTitle": "Possible Giant Cell Arteritis with Visual Symptoms",
+  "badgeText": "طوارئ فورية 🔴",
+  "badgeTextEn": "Immediate Emergency 🔴",
+  "summary": "في عمر 50 سنة أو أكثر، فقدان رؤية جديد مع صداع جديد أو عرج الفك أو ألم فروة الرأس قد يشير إلى التهاب الشريان ذي الخلايا العملاقة، وهو خطر على رؤية العين الأخرى.",
+  "summaryEn": "In adults aged 50 or older, new visual symptoms with headache, jaw claudication, or scalp tenderness may indicate giant cell arteritis and threaten the fellow eye.",
+  "redFlags": [
+    "فقدان رؤية جديد مع ألم الفك عند المضغ",
+    "صداع جديد أو ألم فروة الرأس",
+    "أعراض عامة مثل حمى أو ألم كتفين"
+  ],
+  "redFlagsEn": [
+    "New visual loss with jaw claudication",
+    "New headache or scalp tenderness",
+    "Systemic symptoms such as fever or shoulder pain"
+  ],
+  "contraindications": [],
+  "contraindicationsEn": [],
+  "steps": [
+    "إحالة إسعافية فورية؛ لا تنتظر نتائج الفحوص لتبدأ التقييم والعلاج لدى الطبيب المختص.",
+    "يقرر الطبيب بدء الستيرويدات الجهازية فور الاشتباه المرتفع، مع تقييم موانع الاستعمال وترتيب الفحوص التأكيدية."
+  ],
+  "stepsEn": [
+    "Immediate emergency referral; do not wait for confirmatory testing before specialist-directed management.",
+    "Clinician determines prompt systemic glucocorticoid treatment when suspicion is high, alongside appropriate investigations."
+  ],
+  "referralTime": "فوراً",
+  "referralTimeEn": "Immediately",
+  "referralDestination": "طوارئ العيون / الباطنة أو الروماتيزم",
+  "referralDestinationEn": "Emergency Ophthalmology / Medicine or Rheumatology",
+  "icon": "AlertOctagon"
+},
+
+  RES_VL_UNDIFFERENTIATED: {
+  "id": "RES_VL_UNDIFFERENTIATED",
+  "type": "URGENT",
+  "title": "فقدان رؤية غير مفسر يحتاج تقييماً",
+  "titleEn": "Unexplained Visual Loss Requiring Assessment",
+  "englishTitle": "Unexplained Visual Loss Requiring Assessment",
+  "badgeText": "تقييم عاجل 🟠",
+  "badgeTextEn": "Urgent Assessment 🟠",
+  "summary": "لا تكفي الخيارات الحالية لتحديد سبب فقدان الرؤية. لا يُفترض أن الحالة روتينية لمجرد عدم مطابقة الأعراض للأنماط الشائعة.",
+  "summaryEn": "Available findings do not identify the cause of visual loss; a nonmatching presentation should not be presumed routine.",
+  "redFlags": [
+    "تدهور خلال أيام",
+    "تغير مفاجئ أو أحادي الجانب",
+    "ألم أو أعراض عصبية أو علامات غير معتادة"
+  ],
+  "redFlagsEn": [
+    "Deterioration over days",
+    "Sudden or unilateral change",
+    "Pain, neurologic symptoms, or atypical findings"
+  ],
+  "contraindications": [],
+  "contraindicationsEn": [],
+  "steps": [
+    "وثّق حدة البصر في كل عين والحدقات ووقت بدء الأعراض إن أمكن.",
+    "رتّب تقييماً عينياً عاجلاً؛ أحِل فوراً للطوارئ عند فقدان مفاجئ أو علامات عصبية أو ألم شديد.",
+    "لا تبدأ علاجاً نوعياً دون تشخيص سريري."
+  ],
+  "stepsEn": [
+    "Document acuity in each eye, pupil findings, and onset when feasible.",
+    "Arrange prompt ophthalmic evaluation; emergency referral for sudden loss, neurologic signs, or severe pain.",
+    "Avoid diagnosis-specific treatment without clinical assessment."
+  ],
+  "referralTime": "عاجل؛ فوراً عند العلامات الإسعافية",
+  "referralTimeEn": "Urgent; immediately if emergency features are present",
+  "referralDestination": "عيادة العيون العاجلة / الطوارئ",
+  "referralDestinationEn": "Urgent Ophthalmology / Emergency Department",
+  "icon": "Eye"
+},
 
   RES_CORNEAL_ULCER: {
     id: 'RES_CORNEAL_ULCER',
@@ -715,31 +877,32 @@ export const resultsDatabase: Record<string, TriageResult> = {
       'Contact lens overwear history or vegetative/agricultural trauma'
     ],
     contraindications: [
-      '⛔ حظر تام ونهائي ومطلق لوصف أي قطرات تحتوي على الكورتيزون (Steroids / Dexamethasone / Prednisolone)! الكورتيزون يؤدي لانثقاب القرنية السريع!',
-      '⛔ حظر تغطية العين بضمادة لاصقة دافئة لأنها تسرع تكاثر البكتيريا اللاهوائية.'
+      ' ⛔ لا تبدأ قطرات الكورتيزون في قرحة القرنية المشتبه بأنها معدية دون تقييم اختصاصي العيون. قد تُستخدم في حالات بكتيرية مختارة بعد بدء العلاج المضاد للميكروبات وتحت إشراف متخصص، وتُتجنب عند الاشتباه بعدوى فطرية أو هربسية ظهارية.',
+      '⛔️ لا تغطِّ العين المصابة بقرحة قرنية إنتانية مشتبه بها برقعة أو ضمادة؛ فقد تؤخر ملاحظة تدهور الحالة وقد تزيد العدوى سوءاً.',
     ],
     contraindicationsEn: [
-      '⛔ ABSOLUTE CONTRAINDICATION: NEVER prescribe steroid eye drops (Dexamethasone/Prednisolone)! Steroids cause rapid stromal melt & perforation!',
-      '⛔ NEVER apply tight patch/bandage over corneal ulcer as it accelerates anaerobic bacterial growth.'
+      'Do not start topical corticosteroids for suspected infectious corneal ulcer without ophthalmologist assessment. In selected bacterial keratitis cases, steroids may be considered after appropriate antimicrobial treatment under specialist supervision; avoid them when fungal or epithelial herpetic keratitis is suspected.',
+      '⛔ Do not patch an eye with suspected infectious corneal ulcer; patching can delay recognition of deterioration and may worsen the infection.'
     ],
     steps: [
-      'البدء فوراً بقطرة مضاد حيوي واسع الطيف فلوروكينولون (مثل Moxifloxacin 0.5% أو Ofloxacin 0.3%) قطرة كل 15-30 دقيقة في أول ساعتين، ثم كل ساعة على مدار الساعة.',
-      'إعطاء قطرة مرخية للعضلة الهدبية لتخفيف التشنج والألم (Cyclopentolate 1%).',
-      'حظر الكورتيزون والضمادات حظراً باتاً.',
-      'تحويل عاجل جداً لأخصائي قرنية خلال 24 ساعة لعمل مسحة وتحديد خطة العلاج.'
+      'الاشتباه بقرحة قرنية إنتانية يستلزم تقييماً عاجلاً لدى اختصاصي العيون في اليوم نفسه؛ الحالات الشديدة أو المركزية أو المصحوبة بترقق/ثقب محتمل أو تدهور سريع تستلزم إحالة إسعافية فورية.',
+      'أوقف العدسات اللاصقة فوراً، ولا تضع رقعة ضاغطة على العين. قيّم حدة البصر وافحص القرنية بالمصباح الشقي وصبغة الفلورسين بواسطة مختص عند الإمكان، دون تأخير الإحالة.',
+      'يحدد اختصاصي العيون الحاجة إلى كشط القرنية للزرع والفحوص، خاصةً في القرح الكبيرة أو المركزية أو العميقة أو غير النمطية أو غير المستجيبة للعلاج.',
+      'ابدأ العلاج المضاد للميكروبات المناسب بصورة عاجلة وفق تقييم الطبيب والبروتوكول المحلي؛ اختيار الدواء وتركيزه وتكراره يتغير حسب شدة الحالة والسبب المشتبه به. لا تؤخر الإحالة من أجل العلاج.',
+      'تجنب الستيرويدات الموضعية دون توجيه اختصاصي القرنية، ولا تستخدم موسعات الحدقة إلا إذا قررها الطبيب بعد التقييم.'
     ],
     stepsEn: [
-      'Start intensive broad-spectrum fluoroquinolone drops (Moxifloxacin 0.5% or Ofloxacin 0.3%) 1 drop every 15-30 mins for 2 hours, then hourly around the clock.',
-      'Instill Cyclopentolate 1% cycloplegic drops to relieve ciliary spasm and pain.',
-      'Strictly avoid topical steroids and eye patching.',
-      'Urgent transfer to cornea specialist within 24 hours for scrapings, culture, and fortified antibiotics.'
+      'Suspected infectious corneal ulcer requires urgent same-day ophthalmic assessment; severe or central ulcers, thinning, suspected perforation, or rapidly worsening vision require immediate emergency eye referral.',
+      'Stop contact lens wear immediately and do not patch the eye. Assess visual acuity and arrange slit-lamp and fluorescein examination by a qualified clinician where available, without delaying referral.',
+      'The ophthalmologist determines whether corneal scraping and microbiological testing are needed, particularly for large, central, deep, atypical, or treatment-resistant ulcers.',
+      'Initiate appropriate antimicrobial therapy promptly under clinician direction and local protocols; agent, concentration, and dosing frequency depend on severity and suspected organism. Do not delay referral to arrange treatment.',
+      'Avoid topical corticosteroids unless directed by a corneal specialist; use cycloplegics only if prescribed following clinical assessment.'
     ],
     medications: [
-      { name: 'Moxifloxacin 0.5% drops (Vigamox)', dose: 'قطرة كل ساعة على مدار 24 ساعة', doseEn: '1 drop hourly around the clock', note: 'المضاد الحيوي الأول لقرحة القرنية', noteEn: 'First-line intensive corneal antibiotic' },
-      { name: 'Cyclopentolate 1% drops', dose: 'قطرة مرتين إلى 3 مرات يومياً', doseEn: '1 drop 2-3 times daily', note: 'لتسكين تشنج الجسم الهدبي ومنع الالتصاقات', noteEn: 'Relieves ciliary spasm and prevents posterior synechiae' }
+      { name: 'Topical antimicrobial therapy — clinician-directed', dose: 'يُحدَّد الدواء والجرعة والتكرار بعد التقييم الطبي بحسب شدة القرحة والسبب المحتمل', doseEn: 'Drug, dose, and frequency determined by the treating clinician according to ulcer severity and suspected cause', note: 'لا توجد وصفة موحدة آمنة لجميع القرح القرنية؛ العلاج لا يؤخر الإحالة العاجلة', noteEn: 'No single empirical prescription is appropriate for every corneal ulcer; treatment must not delay urgent referral' }
     ],
-    referralTime: 'خلال 24 ساعة كحد أقصى',
-    referralTimeEn: 'Within 24 hours maximum (Urgent)',
+    referralTime: 'تقييم اختصاصي عيون عاجل في اليوم نفسه عند الاشتباه بقرحة قرنية معدية. إحالة فورية إلى طوارئ العيون عند وجود قرحة شديدة أو مركزية أو ترقق قرني أو اشتباه بانثقاب أو تدهور سريع في الرؤية.',
+    referralTimeEn: 'Urgent same-day ophthalmic assessment for suspected infectious corneal ulcer. Immediate emergency eye referral for severe or central ulcers, corneal thinning, suspected perforation, or rapidly worsening vision.',
     referralDestination: 'أخصائي قرنية / مستشفى عيون مرجعي',
     referralDestinationEn: 'Cornea Specialist / Tertiary Eye Hospital',
     icon: 'ShieldAlert'
@@ -748,13 +911,13 @@ export const resultsDatabase: Record<string, TriageResult> = {
   RES_UVEITIS: {
     id: 'RES_UVEITIS',
     type: 'URGENT',
-    title: 'التهاب القزحية والجسم الهدبي الحاد',
-    titleEn: 'Acute Anterior Uveitis / Iridocyclitis',
-    englishTitle: 'Acute Anterior Uveitis / Iridocyclitis',
+    title: 'اشتباه التهاب العنبية الأمامي الحاد — يتطلب تقييماً عاجلاً للعين',
+    titleEn: 'Suspected Acute Anterior Uveitis — Urgent Eye Assessment',
+    englishTitle: 'Suspected Acute Anterior Uveitis — Urgent Eye Assessment',
     badgeText: 'حالة عيون طارئة 🔴',
     badgeTextEn: 'Ocular Emergency 🔴',
-    summary: 'التهاب مناعي أو جرثومي يصيب القزحية والجسم الهدبي، يتظاهر بألم عميق، احتقان تاجي، رهاب ضديد للضوء، وحدقة ضيقة غير منتظمة.',
-    summaryEn: 'Intraocular inflammation of iris and ciliary body characterized by deep aching pain, ciliary flush, severe photophobia, and constricted sluggish pupil.',
+    summary: 'يُشتبه بالتهاب العنبية الأمامي عند وجود ألم عيني ورهاب للضوء واحمرار حول القرنية، وقد يصاحبه تشوش الرؤية أو تغير في شكل الحدقة. هذه العلامات ليست تشخيصية بمفردها، وقد تظهر في حالات عينية خطرة أخرى؛ لذلك يلزم تقييم عاجل لدى طبيب العيون لتأكيد التشخيص واستبعاد الأسباب المهددة للبصر.',
+    summaryEn: 'Anterior uveitis should be suspected in patients presenting with ocular pain, photophobia, and perilimbal redness, sometimes accompanied by blurred vision or an abnormal pupil. These findings are not diagnostic on their own and may occur in other serious ocular conditions. Urgent ophthalmic assessment is required to confirm the diagnosis and exclude sight-threatening causes.',
     redFlags: [
       'ألم عيني يزداد عند تسليط الضوء على العين الأخرى (Consensual photophobia)',
       'احتقان مهدب عميق حول القرنية بلون قرمزي (Ciliary flush)',
@@ -766,29 +929,29 @@ export const resultsDatabase: Record<string, TriageResult> = {
       'Irregular pupil due to posterior synechiae adhesions to anterior lens capsule'
     ],
     contraindications: [
-      '⚠️ لا تبدأ قطرات الكورتيزون إلا بعد استبعاد قرحة القرنية بصبغة الفلوريسين تماماً.'
+      '⚠️ لا تبدأ قطرات الكورتيزون قبل تقييم طبيب العيون وتأكيد ملاءمتها؛ يجب استبعاد التهاب القرنية المعدي، بما فيه الهربس، وتقييم قرحة القرنية وسائر موانع العلاج. فحص الفلوريسين وحده لا يكفي لاستبعاد جميع الأسباب المعدية.'
     ],
     contraindicationsEn: [
-      '⚠️ Never start topical steroids without first performing fluorescein staining to rule out herpes/corneal ulcer.'
+      '⚠️ Do not initiate topical corticosteroids before ophthalmologist assessment and confirmation that treatment is appropriate. Infectious keratitis, including herpetic keratitis, corneal ulceration, and other relevant contraindications must be evaluated. Fluorescein staining alone does not exclude all infectious causes.'
     ],
     steps: [
-      'وضع قطرة توسيع الحدقة (Cyclopentolate 1% أو Atropine 1%) لشل العضلة الهدبية وتخفيف الألم ومنع التصاق القزحية بالعدسة.',
-      'إعطاء مسكنات ألم فموية (مثل Paracetamol أو Ibuprofen).',
+      'يُقرر طبيب العيون الحاجة إلى قطرات شلّ العضلة الهدبية وتوسيع الحدقة (مثل Cyclopentolate أو Atropine) بعد تقييم الحالة واستبعاد الموانع؛ لتخفيف التشنج الهدبي والمساعدة في الوقاية من الالتصاقات الخلفية.',
+      'يمكن النظر في استخدام مسكنات الألم الفموية (مثل Paracetamol أو Ibuprofen) عند ملاءمتها طبياً، مع مراعاة عمر المريض ووزنه وتاريخه المرضي والتداخلات الدوائية وموانع الاستعمال. يجب ألا يؤخر إعطاء المسكنات التقييم العاجل لدى طبيب العيون.',
       'ارتداء نظارة شمسية داكنة لتخفيف رهاب الضوء المزعج.',
-      'تحويل لأخصائي العيون خلال 24-48 ساعة لتقييم الخلايا بالمصباح الشقي ووصف الكورتيزون المناسب والبحث عن أسباب مناعية جهازية.'
+      'إحالة المريض لتقييم طبيب العيون في اليوم نفسه لإجراء فحص المصباح الشقي، وتأكيد التشخيص، وتحديد العلاج المناسب. عند وجود ألم شديد أو تدهور بالرؤية أو اشتباه بحالة مهددة للبصر، تكون الإحالة إلى طوارئ العيون فورية.'
     ],
     stepsEn: [
-      'Instill cycloplegic drops (Cyclopentolate 1% or Atropine 1%) to paralyze ciliary body, break synechiae, and relieve deep ache.',
-      'Prescribe oral analgesics (Paracetamol 1g or Ibuprofen 400mg).',
+      'The ophthalmologist should determine whether cycloplegic and mydriatic drops (such as Cyclopentolate or Atropine) are appropriate after clinical assessment and review of contraindications, to relieve ciliary spasm and help prevent posterior synechiae.',
+      'Consider appropriate oral analgesia (such as Paracetamol or Ibuprofen) when clinically suitable, taking into account patient age, weight, medical history, potential drug interactions, and contraindications. Analgesia must not delay urgent ophthalmic assessment.',
       'Advise wearing dark sunglasses to reduce discomfort from photophobia.',
-      'Refer to ophthalmologist within 24-48 hours for slit-lamp anterior chamber cell grading and targeted topical steroid therapy.'
+      'Arrange same-day ophthalmologist assessment for slit-lamp examination, diagnostic confirmation, and appropriate treatment. Refer immediately to an ophthalmic emergency service if severe pain, worsening vision, or a sight-threatening condition is suspected.'
     ],
     medications: [
-      { name: 'Cyclopentolate 1% drops', dose: 'قطرة 3 مرات يومياً', doseEn: '1 drop 3 times daily', note: 'لتوسيع الحدقة وفك الالتصاقات وتسكين التشنج', noteEn: 'Cycloplegia and synechiae prevention' },
-      { name: 'Paracetamol 1g / Ibuprofen 400mg', dose: 'قرص كل 8 ساعات عند اللزوم', doseEn: '1 tablet every 8 hours PRN', note: 'لتسكين الألم العيني والصدغي', noteEn: 'Systemic analgesia' }
+      { name: 'Cyclopentolate eye drops', dose: 'يحدد طبيب العيون الجرعة وتكرار الاستعمال بعد تقييم الحالة وموانع العلاج؛ لا يُستخدم تلقائياً قبل التشخيص.', doseEn: 'Dosage and frequency must be determined by the ophthalmologist after clinical assessment and review of contraindications; do not initiate empirically before diagnosis.', note: 'لتوسيع الحدقة وفك الالتصاقات وتسكين التشنج', noteEn: 'Cycloplegia and synechiae prevention' },
+      { name: 'Paracetamol / Ibuprofen', dose: 'تُحدد جرعة المسكن المناسبة حسب العمر والوزن والحالة الصحية وموانع الاستعمال؛ لا تُعتمد جرعة ثابتة لجميع المرضى.', doseEn: 'Analgesic dosage must be individualized according to age, weight, medical history, and contraindications. Do not apply a fixed dose to all patients.', note: 'لتسكين الألم العيني والصدغي', noteEn: 'Systemic analgesia' }
     ],
-    referralTime: 'خلال 24 إلى 48 ساعة',
-    referralTimeEn: 'Within 24 to 48 hours',
+    referralTime: 'تقييم عيني عاجل في اليوم نفسه؛ إحالة فورية للطوارئ عند الألم الشديد أو تدهور الرؤية أو الاشتباه بحالة مهددة للبصر',
+    referralTimeEn: 'Urgent same-day ophthalmic assessment; immediate emergency referral for severe pain, worsening vision, or suspected sight-threatening disease',
     referralDestination: 'أخصائي عيون (مجهز بمصباح شقي عالي الدقة)',
     referralDestinationEn: 'Ophthalmic Clinic (Slit-lamp biomicroscopy equipped)',
     icon: 'Sun'
@@ -1139,40 +1302,40 @@ export const resultsDatabase: Record<string, TriageResult> = {
     englishTitle: 'Retinal Atherosclerosis, Hollenhorst Plaque & Stroke Alert',
     badgeText: 'إنذار وعائي قلبي عاجل 🔴',
     badgeTextEn: 'Urgent Cardio-Stroke Alert 🔴',
-    summary: 'وجود لويحات كوليسترول شريانية (Hollenhorst plaques)، تضيق شديد في الشرايين الشبكية، أو تقاطعات وعائية غائرة (Gunn sign) يشير إلى تصلب شرايين جهازي متقدم وخطر مرتفع جداً لسكتة دماغية (Stroke/TIA) أو احتشاء قلبي.',
-    summaryEn: 'Retinal cholesterol emboli (Hollenhorst plaques), severe arteriolar attenuation, and marked AV crossing changes are direct ocular proxies for carotid stenosis, systemic atherosclerosis, and impending stroke/myocardial infarction.',
+    summary: 'قد تشير الصمات الكوليسترولية الشبكية إلى مصدر وعائي يستدعي التقييم. أما تضيق الشرايين الشبكية وتغيرات التقاطعات الوعائية فقد ترتبط بارتفاع ضغط الدم المزمن وعوامل خطورة وعائية أخرى. لا تثبت هذه العلامات وحدها وجود سكتة دماغية أو احتشاء قلبي وشيك. يستدعي فقدان الرؤية الإقفاري المفاجئ أو ظهور أعراض عصبية حادة تقييماً إسعافياً فورياً.',
+    summaryEn: 'Retinal cholesterol emboli may indicate an underlying vascular embolic source requiring evaluation. Retinal arteriolar narrowing and AV crossing changes may be associated with chronic hypertension and other vascular risk factors. These findings alone do not establish an impending stroke or myocardial infarction. Sudden suspected ischemic visual loss or acute neurological symptoms require immediate emergency assessment.',
     redFlags: [
-      'أعراض عصبية عابرة مثل شلل خفيف مؤقت، صعوبة نطق، أو تنميل (TIA)',
-      'تاريخ نوبات إقفارية عابرة بفقدان البصر المؤقت في عين واحدة (Amaurosis Fugax)',
-      'ارتفاع ضغط دم حاد غير مسيطر عليه'
+      'ضعف مفاجئ أو اضطراب الكلام أو أعراض عصبية بؤرية، حتى لو زالت سريعاً (Stroke/TIA)',
+      'فقدان مفاجئ للرؤية في عين واحدة أو اشتباه نقص تروية شبكية حاد، حتى لو كان عابراً',
+      'ارتفاع شديد في ضغط الدم مع أعراض أو علامات أذية حادة للأعضاء'
     ],
     redFlagsEn: [
-      'Transient neurologic deficits: weakness, dysarthria, numbness (TIA)',
-      'Episodes of transient monocular visual loss (Amaurosis Fugax)',
-      'Severely elevated systemic blood pressure'
+      'Sudden focal neurological symptoms, even if resolved (Stroke/TIA)',
+      'Sudden monocular visual loss or suspected acute retinal ischemia, including transient episodes',
+      'Severely elevated blood pressure with signs or symptoms of acute target-organ injury'
     ],
     contraindications: [
-      '⚠️ حظر تجاهل فحص الشريان السباتي وتخطيط القلب.',
-      '⚠️ لا تكتفِ بفحص العين فقط؛ المريض يحتاج تقييماً قلبياً وعائياً فورياً لمنع السكتة الدماغية.'
+      '⚠️ لا تؤخر الإحالة الإسعافية عند ظهور أعراض عصبية حادة أو فقدان رؤية مفاجئ مشتبه بأنه إقفاري، حتى لو زالت الأعراض.',
+      '⚠️ لا تعتبر العلامات الوعائية الشبكية وحدها دليلاً على سكتة وشيكة؛ حدد الفحوص القلبية والوعائية وفق التقييم السريري.'
     ],
     contraindicationsEn: [
-      '⚠️ NEVER neglect urgent carotid Doppler and cardiac evaluation.',
-      '⚠️ Do not treat as isolated eye finding; requires immediate cardiovascular workup to prevent catastrophic stroke.'
+      '⚠️ Do not delay emergency assessment for acute neurological symptoms or sudden suspected ischemic visual loss, even if symptoms resolve.',
+      '⚠️ Retinal vascular findings alone do not establish impending stroke; select cardiac and vascular investigations according to clinical assessment.'
     ],
     steps: [
-      'قياس العلامات الحيوية فوراً: ضغط الدم في كلا الذراعين، وتخطيط القلب (12-Lead ECG).',
-      'تحويل عاجل لقسم القلب والأوعية الدموية والسكتات الدماغية لإجراء سونار الدوبلر للشرايين السباتية (Carotid Doppler Ultrasound) لكشف التضيق أو اللويحات المتصلبة.',
-      'طلب تصوير صدى القلب (Echocardiogram) وتخطيط هولتر 24 ساعة للبحث عن الرجفان الأذيني (Atrial Fibrillation) أو مصدر صمات قلبية.',
-      'تقييم البدء بالعلاجات الخافضة للدهون (High-intensity Statins) ومضادات الصفيحات (Aspirin) من قبل طبيب القلب/الباطنة.'
+      'تقييم الأعراض العصبية والبصرية الحادة وقياس العلامات الحيوية المتاحة دون تأخير الإحالة الإسعافية عند الاشتباه بسكتة دماغية أو نقص تروية شبكية حاد.',
+      'عند الاشتباه بسكتة دماغية أو نقص تروية شبكية حاد، أحِل المريض فوراً إلى الطوارئ أو مسار السكتة الدماغية. أما الصمات الكوليسترولية الشبكية المكتشفة دون أعراض فتستدعي تقييماً طبياً ووعائياً سريعاً، مع تحديد تصوير الشرايين السباتية وفق الحالة السريرية.',
+      'تقييم الحاجة إلى تخطيط القلب وتصوير صدى القلب أو مراقبة نظم القلب عند الاشتباه بمصدر صمات قلبي، وفق التقييم السريري وتوصيات الفريق المختص، دون تأخير الإحالة الإسعافية.',
+      'تقييم الحاجة إلى مضادات الصفيحات وخافضات الدهون وفق التشخيص المؤكد وعوامل الخطورة القلبية الوعائية وخطر النزف وموانع الاستعمال، بقرار من الطبيب المختص. ولا يبدأ الأسبرين أو الستاتين تلقائياً اعتماداً على العلامات الشبكية وحدها.'
     ],
     stepsEn: [
-      'Immediately obtain bilateral arm blood pressure measurements and 12-lead ECG at field station.',
-      'Urgent referral to Vascular Medicine / Stroke Prevention for Bilateral Carotid Doppler Ultrasound to assess carotid stenosis/plaques.',
-      'Echocardiogram and 24-hour Holter monitoring to screen for embolic cardiac sources and occult Atrial Fibrillation.',
-      'Optimization of cardioprotective pharmacotherapy (High-potency Statins, Antiplatelet agent) under specialist care.'
+      'Assess acute neurological and visual symptoms and obtain available vital signs without delaying emergency referral for suspected stroke or acute retinal ischemia.',
+      'For suspected stroke or acute retinal ischemia, arrange immediate emergency or stroke-pathway assessment. Asymptomatic retinal cholesterol emboli warrant prompt medical and vascular evaluation, with carotid imaging guided by clinical assessment.',
+      'Assess the need for ECG, echocardiography, or cardiac rhythm monitoring when a cardiac embolic source is suspected, guided by clinical assessment and specialist recommendations, without delaying emergency referral.',
+      'Assess indications for antiplatelet and lipid-lowering therapy based on the established diagnosis, cardiovascular risk, bleeding risk, and contraindications under clinician supervision. Do not initiate aspirin or statins solely on the basis of retinal findings.'
     ],
-    referralTime: 'عاجل خلال 24 إلى 48 ساعة كحد أقصى (فوري إذا صاحبه فقدان بصر مؤقت أو أعراض عصبية)',
-    referralTimeEn: 'Urgent within 24-48h (Immediate if accompanied by TIA or Amaurosis Fugax)',
+    referralTime: 'إحالة إسعافية فورية عند الاشتباه بسكتة دماغية أو نوبة إقفارية عابرة أو نقص تروية شبكية حاد، حتى لو زالت الأعراض. أما الصمات الشبكية المكتشفة دون أعراض فتحتاج تقييماً وعائياً سريعاً بحسب الحالة، والتغيرات الوعائية المزمنة تُتابع وفق عوامل الخطورة.',
+    referralTimeEn: 'Immediate emergency assessment for suspected stroke, TIA, or acute retinal ischemia, even if symptoms resolve. Asymptomatic retinal emboli require prompt individualized vascular assessment; chronic vascular changes warrant risk-based follow-up.',
     referralDestination: 'عيادة القلب والأوعية الدموية + وحدة الوقاية من السكتات الدماغية (Stroke Unit)',
     referralDestinationEn: 'Cardiology & Vascular Medicine + Acute Stroke Prevention Unit',
     icon: 'HeartPulse'
@@ -1310,29 +1473,29 @@ export const resultsDatabase: Record<string, TriageResult> = {
   RES_OCULOMICS_NORMAL: {
     id: 'RES_OCULOMICS_NORMAL',
     type: 'ROUTINE',
-    title: 'قاع العين سليم / مؤشرات حيوية شبكية طبيعية (Optimal Oculomics)',
-    titleEn: 'Normal Retinal Microvasculature & Optic Disc (Low Oculomics Risk)',
-    englishTitle: 'Healthy Fundus & Optimal Systemic Microvascular Biomarkers',
-    badgeText: 'مؤشرات ممتازة ووقاية سنوية 🟢',
-    badgeTextEn: 'Optimal Biomarkers 🟢',
-    summary: 'الأوعية الدموية الشبكية وقرص العصب البصري واللطخة الصفراء في حالة صحية ممتازة. المؤشرات الميكرووعائية للجسم تعكس مرونة الشرايين وسلامة الدورة الدموية.',
-    summaryEn: 'Retinal microvasculature, optic nerve head, and macula exhibit normal physiological architecture. Microvascular biomarkers indicate healthy vascular compliance and optimal baseline systemic profile.',
+    title: 'لم تُرصد تغيرات واضحة في قاع العين ضمن الفحص المتاح',
+    titleEn: 'No Obvious Retinal Abnormalities Detected',
+    englishTitle: 'No Obvious Retinal Abnormalities Detected',
+    badgeText: 'لا تغيرات واضحة في الفحص 🟢',
+    badgeTextEn: 'No Obvious Abnormalities 🟢',
+    summary: 'لم تُرصد تغيرات مرضية واضحة في تراكيب الشبكية الظاهرة ضمن الفحص المتاح. ولا تستبعد هذه النتيجة وجود أمراض عينية أو قلبية وعائية أو عصبية أو جهازية. ويجب تحديد التقييم السريري والمتابعة وفق الأعراض والتاريخ المرضي وعوامل الخطورة الفردية.',
+    summaryEn: 'No obvious abnormalities are identified in the visible retinal structures on the available examination. A normal-appearing fundus does not exclude ocular, cardiovascular, neurological, or systemic disease. Clinical assessment and follow-up should be guided by symptoms, medical history, and individual risk factors.',
     redFlags: [],
     redFlagsEn: [],
     contraindications: [],
     contraindicationsEn: [],
     steps: [
-      'طمأنة المريض بسلامة فحص قاع العين والأوعية الدموية والعصب البصري.',
+      'توضيح عدم رصد تغيرات شبكية واضحة ضمن الفحص المتاح، مع التأكيد أن هذه النتيجة لا تستبعد وجود أمراض عينية أو جهازية.',
       'تشجيع الاستمرار في نمط الحياة الصحي وممارسة الرياضة والتغذية المتوازنة.',
-      'جدولة الفحص الوقائي السنوي الدوري لقاع العين، خاصة لمرضى السكري والضغط.'
+      'تحديد موعد فحص العين التالي وفق التشخيص والعمر والأعراض وعوامل الخطورة والإرشادات السريرية المناسبة.'
     ],
     stepsEn: [
-      'Reassure patient of clear, healthy fundus and intact retinal microvasculature.',
+      'Explain that no obvious retinal abnormalities were detected on the available examination; this does not exclude ocular or systemic disease.',
       'Encourage sustained healthy lifestyle, routine physical activity, and balanced nutrition.',
-      'Schedule standard annual preventive retinal screening, particularly for diabetic and hypertensive individuals.'
+      'Schedule the next eye examination according to diagnosis, age, symptoms, risk factors, and applicable clinical guidelines.'
     ],
-    referralTime: 'فحص وقائي سنوي روتيني (Annual Checkup)',
-    referralTimeEn: 'Routine Annual Preventive Screening',
+    referralTime: 'متابعة وقائية حسب الحالة السريرية وعوامل الخطورة',
+    referralTimeEn: 'Risk-Based Preventive Follow-Up',
     referralDestination: 'العيادة الميدانية / الرعاية الصحية الأولية',
     referralDestinationEn: 'Primary Healthcare / Field Vision Clinic',
     icon: 'CheckCircle2'
